@@ -15,16 +15,16 @@
   <br /><br />
 </div>
 
-### [Intro](#intro-1)
+### [소개](#intro-1)
 
-- [What is Vim?](#what-is-vim)
-- [The Vim Philosophy](#the-vim-philosophy)
-- [First steps](#first-steps)
-- [Minimal vimrc](#minimal-vimrc)
-- [What kind of Vim am I running?](#what-kind-of-vim-am-i-running)
-- [Cheatsheets](#cheatsheets)
+- [Vim이란?](#what-is-vim)
+- [Vim의 철학](#the-vim-philosophy)
+- [처음 시작하기](#first-steps)
+- [vimrc의 시작](#minimal-vimrc)
+- [어떤 종류의 Vim을 나는 사용하고 있는가?](#what-kind-of-vim-am-i-running)
+- [치트셋(컨닝 페이퍼)](#cheatsheets)
 
-### [Basics](#basics-1)
+### [기초](#basics-1)
 
 - [Buffers, windows, tabs](#buffers-windows-tabs)
 - [Active, loaded, listed, named buffers](#active-loaded-listed-named-buffers)
