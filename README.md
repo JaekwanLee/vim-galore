@@ -142,25 +142,24 @@
 
 ## What is Vim?
 
-[Vim](http://www.vim.org) is a text editor with a long line of ancestors that
-goes back to [qed](https://en.wikipedia.org/wiki/QED_(text_editor)). [Bram
-Moolenaar](https://en.wikipedia.org/wiki/Bram_Moolenaar) released it in 1991.
+[Vim](http://www.vim.org)은 1991년에 [Bram
+Moolenaar](https://en.wikipedia.org/wiki/Bram_Moolenaar)이 만든 텍스트 편집기이다.
+Vim은 [qed](https://en.wikipedia.org/wiki/QED_(text_editor))와 조상을 같이하는 텍스트 에디터의 한 부류이다.
 
-The project is hosted online at [vim.org](http://www.vim.org/index.php).
+Vim과 관련된 프로젝트는 [vim.org](http://www.vim.org/index.php)에서 찾아볼 수 있다..
 
-Getting Vim: Use your favourite package manager or visit the [download
-page](http://www.vim.org/download.php) from vim.org.
+Vim 받기: 패키지 매니저를 이용하거나 vim.org의 [다운로드 페이지](http://www.vim.org/download.php)를 방문하여
+다운받을 수 있다.
 
-Discussions and user questions are best done on the
-[vim_use](https://groups.google.com/forum/#!forum/vim_use) mailing list or using
-IRC ([Freenode](https://freenode.net)) in the `#vim` channel.
+Vim과 관련된 질문이나 토론은 
+[vim_use](https://groups.google.com/forum/#!forum/vim_use) 메일링 목록을 이용하거나 
+`#vim` 채널의 IRC ([Freenode](https://freenode.net)) 사용할 수 있다..
+ 
+현재 개발은 [Vim 깃헙](https://github.com/vim/vim)에서, 개발과 관련된 토론은 주로
+[vim_개발자](https://groups.google.com/forum/#!forum/vim_dev) 메일링 리스트로 사용된다.
 
-Development happens on [GitHub](https://github.com/vim/vim), discussions on the
-[vim_dev](https://groups.google.com/forum/#!forum/vim_dev) mailing list.
-
-Read [Why, oh WHY, do those #?@! nutheads use
-vi?](http://www.viemu.com/a-why-vi-vim.html) to see common misconceptions about
-Vim explained.
+Vim과 관련된 잘못된 상식을 타파하기위해 아티클
+[왜 오타쿠같지만 천재인 그들은 vim을 사용하는가?](http://www.viemu.com/a-why-vi-vim.html)을 읽어보자
 
 ## The Vim Philosophy
 
