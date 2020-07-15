@@ -184,17 +184,14 @@ load)](https://en.wikipedia.org/wiki/Cognitive_load) 낮추어 주며 작업자�
 
 ## First steps
 
-Vim comes bundled with an interactive tutorial that teaches the most basic
-things you need to know about. You can start it from the shell:
-
+Vim이 설치될때 기본적으로 당신이 알아야 할 것들에 대해 튜토리얼이 같이 설치됩니다. 아래 명령어를
+shell에 실행하세요(영어임)
 ```
 $ vimtutor
 ```
-
-Don't be put off by how boring it looks like and work through the exercises. The
-editors or IDEs you used before were most probably all non-modal, so working by
-switching modes will seem awkward at first, but the more you use Vim, the more
-it becomes [muscle memory](https://en.wikipedia.org/wiki/Muscle_memory).
+읽는 것은 겉보기에 지루할 수 있으니 연습으로 시작하세요. 당신이 일반적으로 사용한 텍스트 편집기는
+아마 양식편집용이 아닐 수 있고, 따라서 Vim의 시작이 생각보다 이상하다고 생각할 수 있습니다. 그러나,
+Vim을 사용하면 할 수록 이것은 당싱의 [muscle memory](https://en.wikipedia.org/wiki/Muscle_memory)가 됩니다.
 
 Vim was bolted on [Stevie](https://en.wikipedia.org/wiki/Stevie_(text_editor)), a
 [vi](https://en.wikipedia.org/wiki/Vi) clone, and supports two operating modes:
