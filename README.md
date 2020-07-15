@@ -163,29 +163,24 @@ Vim과 관련된 잘못된 상식을 타파하기위해 아티클
 
 ## The Vim Philosophy
 
-Vim adheres to the modal editing philosophy. This means that it provides
-multiple modes and the meaning of keys changes according to the mode. You
-navigate files in _normal mode_, you insert text in _insert mode_, you select
-lines in _visual mode_, you access commands in _command-line mode_ and so on.
-This might sound complicated at first, but has a huge advantage: you don't have
-to break your fingers by holding several keys at once, most of the time you
-simply press them one after the other. The more common the task, the fewer keys
-are needed.
+Vim은 양식편집(modal editing)의 철학을 고수한다. 이 의미는 주어진 양식(mode)에 따라
+키의 용도가 다르게 변한다는 것이다. 일반모드로 파일을 둘러보고, 삽입모드로 문자를 넣을 수 있으며,
+비주얼 모드로 단락을 선택할 수 있고, 명령어 모드로 다양한 명령어를 실행하는 식의 형태이다.
+복잡하게 들릴 수 있지만, 이 것이 굉장한 장점인 이유는, 다양한 키 조합을 줄여주고, Vim을 사용하는
+대부분의 시간동안 키 하나를 누룬 후 다른 키를 누르는 간단한 방식으로 만들어 준다. 이 때문에 더 자주 사용되는
+기능은 더 적은 키 조합이 필요하게 된다.
 
-A related concept that works well with modal editing are operators and motions.
-_Operators_ start a certain action, e.g. changing, removing, or selecting text.
-Afterwards you specify the region of text you want to act on using a _motion_.
-To change everything between parentheses, use `ci(` (read _change inner
-parentheses_). To remove an entire paragraph of text, use `dap` (read _delete
-around paragraph_).
+일례로, 연산자(_Operators_)와 그 동작(_motion_)이 양식편집과 잘 맞는 컨셉 중 하나이다.
+연산자는 하나의 액션으로 시작을 한다(가령, 텍스트를 선택/삭제/변경하는 액션). 그 다음,
+한 동작을 원하는 텍스트의 영역을 지정한다. 괄호 안의 모든 텍스트를 변경하기 위해서, `ci(`(change inner parentheses)를
+사용해보라. 전제 단락을 지우기 위해서 `dap`(delete around parentheses)를 사용해보라. 
 
-If you see advanced Vim users working, you'll notice that they speak the
-_language of Vim_ as well as pianists handle their instruments. Complex
-operations are done using only a few key presses. They don't even think about it
-anymore as [muscle memory](https://en.wikipedia.org/wiki/Muscle_memory) took
-over already. This reduces [cognitive
-load](https://en.wikipedia.org/wiki/Cognitive_load) and helps to focus on the
-actual task.
+만약 고수가 사용하는 vim을 보면, 그들을 아마도 vim언어를 사용한 것이고 또한 그들의 손은
+피아니스트처럼 움직일 것이다. 심지어 복잡한 기능마저도 몇 번의 키를 누름으로써 해결된다.
+그들은 더 이상 어떤 키를 눌러야 하는 것초자 생각하지 않게된다. 왜냐면, 그것들은 이미 
+[muscle memory](https://en.wikipedia.org/wiki/Muscle_memory)에서 일어나기 때문이다.
+이것은 [인지부하(cognitive
+load)](https://en.wikipedia.org/wiki/Cognitive_load) 낮추어 주며 작업자체를 몰두하도록 도와준다.
 
 ## First steps
 
