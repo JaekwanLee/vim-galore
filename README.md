@@ -193,81 +193,70 @@ $ vimtutor
 아마 양식편집용이 아닐 수 있고, 따라서 Vim의 시작이 생각보다 이상하다고 생각할 수 있습니다. 그러나,
 Vim을 사용하면 할 수록 이것은 당싱의 [muscle memory](https://en.wikipedia.org/wiki/Muscle_memory)가 됩니다.
 
-Vim was bolted on [Stevie](https://en.wikipedia.org/wiki/Stevie_(text_editor)), a
-[vi](https://en.wikipedia.org/wiki/Vi) clone, and supports two operating modes:
-"compatible" and "nocompatible". Using Vim in compatible mode means using vi
-defaults for all options, opposed to Vim defaults. As long as you didn't create
-a user vimrc yet or started Vim with `vim -N`, compatible mode is assumed! Don't
-use Vim in compatible mode. Just don't.
+Vim은 vi 클론 중 하나인 [Stevie](https://en.wikipedia.org/wiki/Stevie_(text_editor))에
+올라가 두가지 기능(호환모드와 비호환 모드)을 지원한다. 호환 모드는 Vim의 기본 옵션 대신
+vi의 모든 옵션을 기본으로 갖는 모드 이다. 즉, 직업 사용자 vimrc를 생성하거나 시작을 `vim -N`으로
+하지 않는한, 호환모드는 기본적으로 적용이 된다. 제발, vim을 호환모드로 사용하지 말길 권한다.
 
-Next steps:
+다음 단계:
 
-1. Create your own [vimrc](#minimal-vimrc).
-2. Have some [cheatsheets](#cheatsheets) ready for the first weeks.
-3. Read through the [basics](#basics-1) section to learn what is even possible.
-4. Learn on demand! You never finish learning Vim. If you encounter any
-   problems, just look for it on the internet. Your problem was solved already.
-   Vim comes with great documentation and knowing how to navigate it is a must:
-   [Getting help offline](#getting-help-offline).
-5. Have a look at the [additional resources](#additional-resources).
+1. 당신만의 [vimrc](#minimal-vimrc) 생성하기.
+2. 첫 주동안 당신만의 [치트셋](#cheatsheets)을 준비하기.
+3. [기본기능](#basics-1)을 참조하여 가능한 기능들을 둘러보기.
+4. 필요할때 배우세요!. 아마도 절대로 Vim배우기가 끝나지 않을 수 있습니다. 
+   만약 어떤 문제가 생기면, 바로 인터넷으로 찾아보세요. 직면한 문제는 이미 풀렸을 거에요.
+   Vim은 잘 정의된 문서가 함께 설치되니, 둘러보는 방법을 배우는 것이 정말 중요합니다.
+   [오프라인으로 도움얻기](#getting-help-offline).
+5. 한번 [추가 문서들](#additional-resources)도 둘러 보세요.
 
-One last advice: Please learn how to use Vim properly before starting to add all
-kinds of hyped [plugins](#managing-plugins) that only implement features that
-Vim already supports natively.
+마지막 충고: 제발 먼저 한번 Vim을 제대로 배우세요. 다양한 [플러그 인](#managing-plugins)
+에서 제공하는 기능들이 이미 Vim에서 제공할 수도 있어요.
 
 ## Minimal vimrc
 
-The user vimrc can be put into `~/.vimrc` or for the sake of better separation
-into `~/.vim/vimrc`. The latter makes it easy to put the entire configuration
-under version control and upload it to, let's say GitHub.
+사용자 vimrc는 `~/.vimrc`나 혹은 더 분리된 공간을 위해 `~/.vim/vimrc`에 저장합니다.
+후자의 경우에 Github과 같은 version control 시스템에 넣어 사용하기 편합니다.
 
-You find many "minimal vimrcs" all over the net, and maybe my version isn't as
-minimal as it should be, but it provides a good set of sane settings that I deem
-to be useful for starting out.
+인터넷에 최소화 버전의 다양한 vimrc파일들이 발견되는데, 아마도 제 버전은 그렇게나
+작은 버젼이 아닐수 있어요. 하지만 시작하기에 좋은 기능들을 많이 넣어 놓았습니다.
 
-Eventually you have to read up on all the mentioned settings anyway and decide
-for yourself. :-)
+결국, 스스로 전부 읽어보고 결정해야 겠지만요 ㅎ.
 
-So here it is: [minimal-vimrc](static/minimal-vimrc.vim)
+이곳에 다양한 vimrc: [minimal-vimrc](static/minimal-vimrc.vim)
 
-In case you're interested, here's
-[my vimrc](https://github.com/mhinz/dotfiles/blob/master/.vim/vimrc).
+그리고 혹시 제가 만들은 것에 관심이 가시면:
+[내 vimrc](https://github.com/mhinz/dotfiles/blob/master/.vim/vimrc).
 
-**TIP**: Most plugin authors maintain several plugins and also publish their
-vimrc on GitHub (often in a repository called "vim-config" or "dotfiles"), so
-whenever you find a plugin you like, look up its maintainer's GitHub page and
-look through the repositories.
+**TIP**: 대부분의 플러그인을 만든 사람들은 여러가지 플러그인을 유지보수하고, 자신만의
+vimrm를 깃헙에 올려놉니다.(종종 vim-config란 폴더나 dotfiles이란 폴더 이름을 사용해요).
+따라서, 좋아하는 플러그인을 찾으면, 그 사람들의 깃헙 페이지를 찾아보세요.
 
 ## What kind of Vim am I running?
 
-Looking at `:version` will give you all the information you need to know about
-how the currently running Vim binary was compiled.
+`:version`을 입력하면, 현재 설치되어 있는 Vim에 대한 모든 정보를 찾아볼 수 있습니다.
 
-The first line tells you when the binary was compiled and the version, e.g. 7.4.
-One of the next lines states `Included patches: 1-1051`, which is the patch
-level. Thus, your exact Vim version is 7.4.1051.
+첫 줄에 7.4와 같은 버전정보와 언제 컴파일이 된 바이너리인지를 알려줍니다.
+다음 줄은 `Included patches: 1-1051`처럼 시작하는데, 패치 레벨을 알려주는 정보 입니다.
+따라서 당신의 정확한 버전은 7.4.1051이 됩니다.
 
-Another line states something like `Tiny version without GUI` or `Huge version
-with GUI`. The obvious information from that is whether your Vim includes GUI
-support, e.g. for starting `gvim` from the shell or running `:gui` from Vim
-within a terminal emulator. The other important information is the `Tiny` and
-`Huge`. Vim distinguishes between feature sets called `tiny`, `small`, `normal`,
-`big`, and `huge`, all enabling different subsets of features.
+다음 줄에선 `Tiny version without GUI` 혹은 `Huge version with GUI`으로 시작하는데,
+가장 쉽게 알아볼 수 있는 정보 중 하나는 GUI기능을 제공하는가 입니다. 예를들면, `:gui`를 
+Vim에 입력하거나 쉘에 gvim을 입력해 봅니다. 다른 중요한 정보중의 하나는 `Tiny`와
+`Huge`입니다. Vim은 기능들을 셋으로 묶어 두었는데 `tiny`, `small`, `normal`, `big`,
+그리고 `huge`가 기능 셋들을 지칭하는 용어 입니다.
 
-The majority of `:version` output is consumed by the feature list itself.
-`+clipboard` means the clipboard feature was compiled in, `-clipboard` means it
-wasn't compiled in.
+대부분의 `:version` 결과는 기능목록로 차지합니다.
+`+clipboard`은 클립보드기능이 들어간 것이고, `-clipboard`은 클립보드 기능이 빠진 것입니다.
 
-A few Vim features need to be compiled in for them to work. E.g. for `:prof` to
-work, you need a Vim with a huge feature set, because that set enables the
-`+profile` feature.
+몇 가지의 Vim 기능들은 이런 기능들이 들어가야만 작동을 합니다.
+`:prof`를 사용하기 위해선, 이것은 `+profile`기능을 사용하기 때문에 Huge 기능 셋이 들어간
+vim이 필요합니다.
 
-If that's not the case and you installed Vim from a package manager, make sure
-to install a package called `vim-x`, `vim-x11`, `vim-gtk`, `vim-gnome` or
-similar, since these packages usually come with the huge feature set.
+만약에 패키지 매니져를 통해 설치한 Vim이 Huge셋이 아니면, 
+`vim-x`, `vim-x11`, `vim-gtk`, `vim-gnome`혹은 이와 비슷한 이름으로 찾아보세요.
+이들은 보통 Huge셋으로 설치되거든요.
 
-You can also test for the version or features programmatically:
-
+혹은 아래로 프로그램을 만들어서 버젼을 확인 할 수도 있습니다.
 ```vim
 " Do something if running at least Vim 7.4.42 with +profile enabled.
 if (v:version > 704 || v:version == 704 && has('patch42')) && has('profile')
@@ -275,7 +264,7 @@ if (v:version > 704 || v:version == 704 && has('patch42')) && has('profile')
 endif
 ```
 
-Help:
+도움:
 
 ```
 :h :version
@@ -291,7 +280,7 @@ Help:
 - http://michael.peopleofhonoronly.com/vim/vim_cheat_sheet_for_programmers_screen.png
 - http://www.rosipov.com/images/posts/vim-movement-commands-cheatsheet.png
 
-Or quickly open a cheatsheet from within Vim: [vim-cheat40](https://github.com/lifepillar/vim-cheat40).
+혹은 Vim자체에서 치트셋을 보려면: [vim-cheat40](https://github.com/lifepillar/vim-cheat40).
 
 # Basics
 
