@@ -27,7 +27,7 @@
 ### [기초](#basics-1)
 
 - [버퍼, 윈도우, 탭](#buffers-windows-tabs)
-- [Active, loaded, listed, named buffers](#active-loaded-listed-named-buffers)
+- [활성된, 로드된, 목록화된, 이름있는 버퍼](#active-loaded-listed-named-buffers)
 - [Argument list](#argument-list)
 - [Mappings](#mappings)
 - [Mapleader](#mapleader)
@@ -332,34 +332,32 @@ that doesn't make them _splits_. (split은 명사가 아니니 splits라고 복�
 
 ## Argument list
 
-The [global buffer list](#buffers-windows-tabs) is a Vim thing. Before that, in
-vi, there only used to be the argument list, which is also available in Vim.
+[글로벌 버퍼 목록](#buffers-windows-tabs)은 Vim이 가진 것이죠. 그전에, vi에는
+변수 목록이 존재했는데, Vim 역시 그것을 갖고 있죠.
 
-Every filename given to Vim on the shell command-line, is remembered in the
-argument list. There can be multiple argument lists: by default all arguments
-are put into the global argument list, but you can use `:arglocal` to create a
-new argument list that is local to the window.
+쉘에서 Vim에게 주어진 모든 파일 이름들은 이 변수 목록에 기억됩니다. 그리고 여러개의
+목록들로 구성될 수도 있죠. 기본셋팅으로 모든 변수들은 글로벌 변수목록에 들어갑니다.
+하지만 `:arglocal`로 새로운 변수목록을 생성하여 로컬 윈도우에서 사용할 수 있죠.
 
-List the current arguments with `:args`. Switch between files from the argument
-list with `:next`, `:previous`, `:first`, `:last` and friends. Alter it with
-`:argadd`, `:argdelete` or `:args` with a list of files.
 
-If you should prefer using the buffer or argument list for working with files is
-a matter of taste. My impression is that most people use the buffer list
-exclusively.
+`:args`으로 현재 변수목록을 보세요. `:next`, `:previous`, `:first`, `:last`들을
+통해서 변수 목록에 있는 다른 파일들로 바꾸어 보세요, `:argadd`, `:argdelete`로
+변수목록을 바꾸어 보고  `:args`로 다시 확인해 보세요.
 
-Nevertheless, there is one huge use case for the argument list: batch processing
-via `:argdo`! A simple refactoring example:
+만약에 버퍼나 변수목록을 통해 작업을 하는 것은 완전히 당신의 자유입니다. 제 생각은
+대부분의 사람들이 버퍼목록은 사용한다고 보죠.
+
+그래도, 한 가지 변수목록이 사용되는 곳이 있습니다. 바로 `:argdo`를 통한 배치 프로세싱
+입니다. 간단한 리팩토링 예를 보죠.
 
 ```vim
 :args **/*.[ch]
 :argdo %s/foo/bar/ge | update
 ```
+이것은 현 폴더 혹은 그아래 있는 폴더에 있는 모든 .c나 .h파일에 나오는 'foo'를
+'bar'로 바꿉니다.
 
-This replaces all occurrences of "foo" by "bar" in all C source and header files
-from the current directory and below.
-
-Help: `:h argument-list`
+도움: `:h argument-list`
 
 ## Mappings
 
