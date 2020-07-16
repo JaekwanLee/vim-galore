@@ -28,8 +28,8 @@
 
 - [버퍼, 윈도우, 탭](#buffers-windows-tabs)
 - [활성된, 로드된, 목록화된, 이름있는 버퍼](#active-loaded-listed-named-buffers)
-- [Argument list](#argument-list)
-- [Mappings](#mappings)
+- [변수 목록](#argument-list)
+- [맵핑](#mappings)
 - [Mapleader](#mapleader)
 - [Registers](#registers)
 - [Ranges](#ranges)
@@ -361,27 +361,28 @@ that doesn't make them _splits_. (split은 명사가 아니니 splits라고 복�
 
 ## Mappings
 
-You can define your own mappings with the `:map` family of commands. Each
-command of that family defines a mapping for a certain set of modes. Technically
-Vim comes with a whopping 12 modes, 6 of them can be mapped. Additionally, some
-commands act on multiple modes at once.
+당신은 또한 `:map`계열의 명령어로 새로운 맵핑을 정의 할 수 있습니다. 각 명령어
+집군은 특정 모드를 위해 새로운 맵핑을 정의할 수 있습니다. 기술적으로, Vim은
+12개의 모드가 있고, 그 중 6개가 맵핑될 수 있습니다. 추가로, 어떤 명령어들은 한
+번에 여러가지 모드로 활성화될 수 있습니다.
 
-| Recursive | Non-recursive | Unmap     | Modes                            |
-|-----------|---------------|-----------|----------------------------------|
-| `:map`    | `:noremap`    | `:unmap`  | normal, visual, operator-pending |
-| `:nmap`   | `:nnoremap`   | `:nunmap` | normal                           |
-| `:xmap`   | `:xnoremap`   | `:xunmap` | visual                           |
-| `:cmap`   | `:cnoremap`   | `:cunmap` | command-line                     |
-| `:omap`   | `:onoremap`   | `:ounmap` | operator-pending                 |
-| `:imap`   | `:inoremap`   | `:iunmap` | insert                           |
+| Recursive(재귀) | Non-recursive | Unmap     | Modes(모드)                      |
+|-----------------|---------------|-----------|----------------------------------|
+| `:map`          | `:noremap`    | `:unmap`  | normal, visual, operator-pending |
+| `:nmap`         | `:nnoremap`   | `:nunmap` | normal(일반)                     |
+| `:xmap`         | `:xnoremap`   | `:xunmap` | visual(비주얼)                   |
+| `:cmap`         | `:cnoremap`   | `:cunmap` | command-line(명령어)             |
+| `:omap`         | `:onoremap`   | `:ounmap` | operator-pending(지연된 연산자)  |
+| `:imap`         | `:inoremap`   | `:iunmap` | insert(삽입)                     |
 
+예) 아래는 일반모드만 맵핑을 새로 정의합니다.
 E.g. this defines the mapping for normal mode only:
 
 ```vim
 :nmap <space> :echo "foo"<cr>
 ```
 
-Unmap it again by using `:nunmap <space>`.
+맵핑 지우기: `:nunmap <space>`.
 
 For a few more but rather uncommon modes (or combinations of them), see `:h
 map-modes`.
