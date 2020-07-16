@@ -26,7 +26,7 @@
 
 ### [기초](#basics-1)
 
-- [Buffers, windows, tabs](#buffers-windows-tabs)
+- [버퍼, 윈도우, 탭](#buffers-windows-tabs)
 - [Active, loaded, listed, named buffers](#active-loaded-listed-named-buffers)
 - [Argument list](#argument-list)
 - [Mappings](#mappings)
@@ -286,52 +286,49 @@ endif
 
 ## Buffers, windows, tabs
 
-Vim is a text editor. Every time text is shown, the text is part of a
-**buffer**. Each file will be opened in its own buffer. Plugins show stuff in
-their own buffers etc.
+Vim은 텍스트 편집기입니다. 텍스트가 보여질 때매다, 그 텍스트는 버퍼의 일부분
+입니다. 각 파일은 또한 각기 자신만의 버퍼를 갖습니다. 플러그인 또한 자신들이
+가진 버퍼를 이용해 결과르 보여줍니다.
 
-Buffers have many attributes, e.g. whether the text it contains is modifiable,
-or whether it is associated with a file and thus needs to be synchronized to
-disk on saving.
+**버퍼**들은 다양한 속성을 갖는데, 가령 그 버퍼가 가진 텍스트가 변경불가한 것인지 혹은
+연결된 파일이 존재하는지, 혹은 그 파일에 따라 디스크에 저장이 되야하는지 등을 뜻합니다.
 
-**Windows** are viewports _onto_ buffers. If you want to view several files at
-the same time or even different locations of the same file, you use windows.
+**윈도우**들은 버퍼 위를 바라보는 창들입니다. 만약 한 번에 여러 파일을 보거나 혹은
+다른 장소에 저장된 같은 파일을 본다면, 그것은 윈도우를 사용하는 것입니다.
 
-And please, please don't call them _splits_. You can split a window in two, but
-that doesn't make them _splits_.
+그리고, 제발 그것들을 _splits_라고 부르지 마세요.  You can split a window in two, but
+that doesn't make them _splits_. (split은 명사가 아니니 splits라고 복수형으로 표현하지
+말아 달라는 것입니다. 한국에서는 크게 무의미 하네요)
 
-Windows can be split vertically or horizontally and the heights and widths of
-existing windows can be altered, too. Therefore, you can use whatever window
-layout you prefer.
+윈도우는 가로 혹은 세로로 갈라질 수 있으며, 또한 너비나 높이를 조절할 수 있습니다.
+따라서, 어떤 레이아웃을 가진 윈도우도 당신이 원하는대로 사용할 수 있죠.
 
-A **tab page** (or just tab) is a collection of windows. Thus, if you want to
-use multiple window layouts, use tabs.
+**탭 페이지** (혹은 그냥 탭) 은 윈도우들의 집합입니다. 따라서, 다양한 윈도우 레이아웃을
+사용하고 싶다면, 탭을 사용하세요.
 
-Putting it in a nutshell, if you start Vim without arguments, you'll have one
-tab page that holds one window that shows one buffer.
+간단하게 말하면, 어떤 추가 변수 없이 Vim을 사용하면, 당신은 한 개의 윈도우를
+갖고서 하나의 버퍼를 보여주는 한개의 탭을 갖게 될 것입니다.
 
-By the way, the buffer list is global and you can access any buffer from any
-tab.
+그나저나, 버퍼 목록은 글로벌이며 어느탭이든지 접근 가능합니다.
 
 ## Active, loaded, listed, named buffers
 
-Run Vim like this `vim file1`. The file's content will be loaded into a buffer.
-You have a **loaded buffer** now. The content of the buffer is only synchronized
-to disk (written back to the file) if you save it within Vim.
+`vim file1`처럼 Vim을 실행해 보세요. 파일의 내용이 버퍼에 채워질 것입니다.
+이제 당신은 **로드된(loaded) 버퍼**를 갖고 있죠. 버퍼의 내용물은 이제 당싱이 Vim을 저장
+시켜야 디스크에 저장될 것입니다.(파일에 쓴다는 소리죠)
 
-Since the buffer is also shown in a window, it's also an **active buffer**. Now
-if you load another file via `:e file2`, `file1` will become a **hidden buffer**
-and `file2` the active one.
+버퍼는 윈도우에 보여지기 때문에, **활성된(active) 버퍼**입니다. 이제 다른 파일을
+`:e file2`로 열어 보세요. `file1`은 이제 **숨겨진(hidden) 버퍼**이고 `file2`가 
+활성화 됩니다.
 
-Both buffers are also **listed**, thus they will get listed in the output of
-`:ls`. Plugin buffers or help buffers are often marked as unlisted, since
-they're not regular files you usually edit with a text editor. Listed and
-unlisted buffers can be shown via `:ls!`.
+이 두 버퍼 모두 **목록화(listed)**되어, 모두 `:ls`를 통해서 출력 됩니다.
+플러그인 버퍼나 도움버퍼들 모두 목록화되지 않습니다. 왜냐면, 그 버퍼들은 편집기를
+통해 변경하는 일반적인 파일들이 아니기 때문이죠. 하지만 이 두 가지 종류 버퍼를
+모두 보려면 `:ls!`를 사용하세요.
 
-**Unnamed buffers**, also often used by plugins, are buffers that don't have an
-associated filename. E.g. `:enew` will create an unnamed scratch buffer. Add
-some text and write it to disk via `:w /tmp/foo`, and it will become a named
-buffer.
+플러그인이 종종 사용하는 **이름없는(unnamed) 버퍼**는 파일 이름이 없습니다.
+예를 들면, `:enew`는 이름없는 빈 버퍼를 생성하는데, 그곳에 텍스트를 추가한 후에
+`:w /tmp/foo`처럼 명령어를 사용해야 저장할 수 있습니다.
 
 ## Argument list
 
