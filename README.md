@@ -384,48 +384,46 @@ E.g. this defines the mapping for normal mode only:
 
 맵핑 지우기: `:nunmap <space>`.
 
-For a few more but rather uncommon modes (or combinations of them), see `:h
-map-modes`.
+일반적이진 않지만 다른 모드들을 보려면 `:h map-modes`을 보세요.
 
-So far, so good. There's only one problem that can be pretty confusing to
-beginners: `:nmap` is _recursive_! That is, the right-hand side takes other
-mappings into account.
+좋아요. 아마도 배우려는 사람들에게 가장 혼동스런 부분이 남았어요.
+바로 `:nmap`은 재귀적이라는 것이죠. 그 말은 두 번째 인자는 다른 맵핑을
+고려한다는 거에요.
 
-So you defined a mapping that simply echoes "Foo":
+자. 아래와 같이 b로 Foo를 출력하는 맵핑을 정의한다고 해봅시다.
 
 ```vim
 :nmap b :echo "Foo"<cr>
 ```
 
-But what if you want to map the default behavior of `b` (going one word back) to
-another key?
+그러면 만약에 `b`(한단어 뒤로가기)의 기본적인 맵핍을 다른 키로 바꾸고 싶다면요?
+
 
 ```vim
 :nmap a b
 ```
 
-If you hit <kbd>a</kbd>, we expect the cursor to go back a word, but instead
-"Foo" is printed in the command-line! Because the right-hand side, `b`, was
-mapped to another action already, namely `:echo "Foo"<cr>`.
+<kbd>a</kbd>를 누르면, 아마도 한 단어 뒤로가길 예상하겠지만, 
+"Foo"가 명령어 창에서 출력이 될거에요. 왜냐면 `b`가 다른 행동을
+하도록 이미 맵핑되어 있기 때문이죠. `:echo "Foo"<cr>`로요.
 
-The proper way to resolve this problem is to use a _non-recursive_ mapping
-instead:
+이 문제를 해결하기 위한 방법은 재귀방지용 맵핑을 대신 이용하는 것이죠.
 
 ```vim
 :nnoremap a b
 ```
 
-Rule of thumb: Always use non-recursive mappings unless recursing is actually
-desired.
+추천: 재귀적인 것을 예상하지 않는 이상 항상 재귀방지용 맵핑을 이용하세요. 
 
-Look up your mappings by not giving a right-hand side. E.g. `:nmap` shows all
-normal mappings and `:nmap <leader>` shows all normal mappings that start with
-the mapleader.
+정의되어 있는 맵핑보려면 우측 인자를 넣지 않으면 됩니다. 예를들어, `:nmap`은 모든 일반
+맵핑정보를 보여주고, `:nmap <leader>`은 맵리더(mapleader)가 들어간 모든 맵핑을 모여줍니다.
 
-If you want to disable a standard mapping, map them to the special `<nop>`
-character, e.g. `:noremap <left> <nop>`.
+만약 기본 맵핑을 중지하고 싶다면, 특별한 문자인 `<nop>`을 이용해서
+`:noremap <left> <nop>`처럼 맵핑을 생성하세요.
+If you want to disable a standard mapping, map them to the special 
+character, e.g. 
 
-Help:
+도음:
 
     :h key-notation
     :h mapping
@@ -433,30 +431,32 @@ Help:
 
 ## Mapleader
 
-The mapleader is simply a placeholder than can be used with custom mappings and
-is set to `\` by default.
+맵리더는 간단하게 맵핑키의 시작을 알리는 지시자에요. 이것은 보통 사용자지정
+맵핑을 쓸때 사용되고 기본적으로 `\`으로 지정되어 있습니다.
 
 ```vim
 nnoremap <leader>h :helpgrep<space>
 ```
 
-This mapping is triggered by `\h`. If you want to use `<space>h` instead:
+이 맵핑은 `\h`으로 활성화됩니다. `<space>h`을 대신 사용하려면:
 
 ```vim
 let mapleader = ' '
 nnoremap <leader>h :helpgrep<space>
 ```
 
-Moreover, there is `<localleader>` that is the local counterpart to `<leader>`
-and is supposed to be used for mappings that are local to the buffer, eg.
-filetype-specific plugins. It also defaults to `\`.
+그리고, `<leader>`과 대비되어 `<localleader>`은 로컬에서 중요하게 작동합니다.
+이것은 버퍼에 로컬로 붙어있는 맵핑에서 사용하게 되어있는데,
+가령, 특별한 파일 종류에만 작동하는 플러그인들에서 볼수 있죠. 이것 또한
+`\`을 기본으로 사용합니다.
 
-**Note**: Set the mapleaders before mappings! All leader mappings that are in
-effect already, won't change just because the mapleader was changed. `:nmap
-<leader>` will show all normal mode leader mappings with the mapleader resolved
-already, so use it to double-check your mappings.
+**주의**: 맵리더를 맵핑하기 전에 지정하세요. 이미 사용되고 있는 다른 리더맵핑은 
+변하세지 않습니다. 왜냐면 맵리더가 변경되었기 때문이죠.
 
-See `:h mapleader` and `:h maplocalleader` for more.
+<leader>`은 모든 맵리더로 시작하는 맵핑들을 보여줍니다. 그러니 당신만의 맵핑이
+맞는지 재차 확인하며 사용하세요.
+
+더 자세한 정보는 `:h mapleader`나 `:h maplocalleader`를 보세요.
 
 ## Registers
 
