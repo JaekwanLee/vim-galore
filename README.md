@@ -30,10 +30,10 @@
 - [활성된, 로드된, 목록화된, 이름있는 버퍼](#active-loaded-listed-named-buffers)
 - [변수 목록](#argument-list)
 - [맵핑](#mappings)
-- [Mapleader](#mapleader)
-- [Registers](#registers)
-- [Ranges](#ranges)
-- [Marks](#marks)
+- [맵리더](#mapleader)
+- [레지스터](#registers)
+- [범위](#ranges)
+- [지점](#marks)
 - [Completion](#completion)
 - [Motions, operators, text objects](#motions-operators-text-objects)
 - [Autocmds](#autocmds)
@@ -625,49 +625,46 @@ buffer and switch back via `'M` or `` `M ``.
 
 ## Completion
 
-Vim provides many kinds of insert mode completions. If there are multiple
-matches, a popup menu will let you navigate to the match of your choice.
+Vim은 여러가지의 자동완성들은 삽입모드에서 지원합니다. 만약에 여러개가 찾아지면,
+팝업으로 선택을 가이드합니다.
 
-Typical kinds of completion are tags, functions from imported modules or
-libraries, file names, dictionary or simply words from the current buffer.
+전형적인 자동완성들로 태그, 모듈로서 삽인된 함수들이나 라이브러리들, 파일 이름들,
+사전(dictionary)나 현재 버퍼에서 끌어온 간단한 단어가 있죠.
 
-Vim provides a mapping for each kind of completion and they all start with
-`<c-x>` (remember to use them in insert mode):
+Vim은 각 자동완성을 위해 매핑을 제공하며, 모두 `<c-x>`로 시작합니다. (삽입모드로
+사용해야 합니다.)
 
-| Mapping | Kind | Help         |
+| 맵핑(Mapping) | 종류(Kind) | 도움(Help)         |
 |---------|------|--------------|
-| `<c-x><c-l>` | whole lines | `:h i^x^l` |
-| `<c-x><c-n>` | keywords from current file | `:h i^x^n` |
-| `<c-x><c-k>` | keywords from `'dictionary'` option | `:h i^x^k` |
-| `<c-x><c-t>` | keywords from `'thesaurus'` option | `:h i^x^t` |
-| `<c-x><c-i>` | keywords from current and included files | `:h i^x^i` |
-| `<c-x><c-]>` | tags | `:h i^x^]` |
-| `<c-x><c-f>` | file names | `:h i^x^f` |
-| `<c-x><c-d>` | definitions or macros | `:h i^x^d` |
-| `<c-x><c-v>` | Vim commands | `:h i^x^v` |
-| `<c-x><c-u>` | user defined (as specified in `'completefunc'`) | `:h i^x^u` |
-| `<c-x><c-o>` | omni completion (as specified in `'omnifunc'`) | `:h i^x^o` |
-| `<c-x>s`     | spelling suggestions | `:h i^Xs` |
+| `<c-x><c-l>` | 줄 전체 | `:h i^x^l` |
+| `<c-x><c-n>` | 현재 파일에서 키워드들| `:h i^x^n` |
+| `<c-x><c-k>` | `'dictionary'` 옵션에서 키워드들| `:h i^x^k` |
+| `<c-x><c-t>` | `'thesaurus'` 옵션에서 키워드들 | `:h i^x^t` |
+| `<c-x><c-i>` | 현재 파일과 포함된 파일에서 키워드들| `:h i^x^i` |
+| `<c-x><c-]>` | 태그| `:h i^x^]` |
+| `<c-x><c-f>` | 파일이름 | `:h i^x^f` |
+| `<c-x><c-d>` | 정의나 매크로| `:h i^x^d` |
+| `<c-x><c-v>` | Vim 명령어| `:h i^x^v` |
+| `<c-x><c-u>` | 사용자 지정 완성(`'completefunc'`에서 지정된) | `:h i^x^u` |
+| `<c-x><c-o>` | 옴니(omni) 완성(`'omnifunc'`에서 지정된) | `:h i^x^o` |
+| `<c-x>s`     | 스펠링 체크| `:h i^Xs` |
 
-People might be confused about the difference between user defined completion
-and omni completion, but technically they do the same thing. They take a
-function that inspects the current position and return a list of suggestions.
-User defined completion is defined by the user for their own personal purposes.
-(Surprise!) It could be anything. Omni completion is meant for filetype-specific
-purposes, like completing struct members or class methods, and is often set by
-filetype plugins.
+아마도 사용자 지정 완성과 옴니 완성에 혼동을 갖는 사람들도 있을거에요. 하지만,
+그 둘은 기술적으로 같은 것이에요. 둘 다 현재 위치를 고려해서 단어목록을 반환하는
+함수 하나를 갖습니다. 사용자 지정 완성은 개인적인 목적에 의해서 그들이 지정을 합니다.
+아무거나 괜찮죠. 옴니 완성은 특정 파일 타입을 위해 만들며, class에서 struct와class
+멤버 함수처럼 파일타일 플러그인에 의해 종종 지정됩니다.
 
-Vim also allows for completing multiple kinds at once by setting the
-`'complete'` option. By default that option includes quite a lot, so be sure to
-trim it to your taste. You can trigger this completion by using either `<c-n>`
-(next) and `<c-p>` (previous), which also happen to be the keys used for
-choosing entries in the popup menu. See `:h i^n` and `:h 'complete'` for more on
-this.
+Vim은 또한 `'complete'` 옵션을 이용하여 다양한 종류를 한 방에 완성시킬 수 있는 것도
+허락합니다. 기본적으로 이 옵션이 꽤 많이 들어가 있으므로, 입맛에 맞게 바꾸세요. 
+`<c-n>` (다음)이나 `<c-p>` (이전)를 이용해 이 완성들을 시작할 수 있습니다. 이 키들은
+또한 팝업 메뉴에서 선택을 하는데도 쓰지죠. 더 많은 정보는 `:h i^n`와 `:h 'complete'`를 보세요.
 
-Be sure to check out `:h 'completeopt'` for configuring the behaviour of the
-popup menu. The default is quite sane, but I prefer adding "noselect" as well.
 
-Help:
+`:h 'completeopt'`를 확인해보는 것을 잊지 마세요. 팝업메뉴의 행동방식을 알려줍니다.
+기본으로 들어간 셋팅도 괜찮지만, 저는 "noselect"옵션도 좋다고 봐요.
+
+도움:
 
 ```
 :h ins-completion
