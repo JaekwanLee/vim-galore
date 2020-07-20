@@ -460,59 +460,58 @@ nnoremap <leader>h :helpgrep<space>
 
 ## Registers
 
-Registers are slots that save text. Copying text into a register is called
-**yanking** and extracting text from a register is called **pasting**.
+레지스터는 텍스트를 저장하는 공간입니다. 텍스트를 복사해서 레지스터에 넣는 것을
+**복사- 잡아넣기(yanking)**이라고 합니다. 그리고 레지스터에서 꺼내는 것을 **붙여넣기(pasting)**라고 하죠.
 
-Vim provides the following registers:
+Vim은 아래와 같은 레지스터들을 제공합니다:
 
-| Type                | Character              | Filled by? | Readonly? | Contains text from? |
-|---------------------|------------------------|------------|-----------|---------------------|
-| Unnamed             | `"`                    | vim        | [ ]       | Last yank or deletion. (`d`, `c`, `s`, `x`, `y`) |
-| Numbered            | `0` to `9`             | vim        | [ ]       | Register `0`: Last yank. Register `1`: Last deletion. Register `2`: Second last deletion. And so on. Think of registers `1`-`9` as a read-only [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) with 9 elements. |
-| Small delete        | `-`                    | vim        | [ ]       | Last deletion that was less than one line. |
-| Named               | `a` to `z`, `A` to `Z` | user       | [ ]       | If you yank to register `a`, you replace its text. If you yank to register `A`, you append to the text in register `a`. |
-| Read-only           | `:`, `.`, `%`          | vim        | [x]       | `:`: Last command, `.`: Last inserted text, `%`: Current filename. |
-| Alternate buffer    | `#`                    | vim        | [ ]       | Most of the time the previously visited buffer of the current window. See `:h alternate-file` |
-| Expression          | `=`                    | user       | [ ]       | Evaluation of the VimL expression that was yanked. E.g. do this in insert mode: `<c-r>=5+5<cr>` and "10" will be inserted in the buffer. |
-| Selection           | `+`, `*`               | vim        | [ ]       | `*` and `+` are the [clipboard](#clipboard) registers. |
-| Drop                | `~`                    | vim        | [x]       | From last drag'n'drop. |
-| Black hole          | `_`                    | vim        | [ ]       | If you don't want any other registers implicitly affected. E.g. `"_dd` deletes the current line without affecting registers `"`, `1`, `+`, `*`. |
-| Last search pattern | `/`                    | vim        | [ ]       | Last pattern used with `/`, `?`, `:global`, etc. |
 
-Each register that is not readonly can be set by the user:
+| 종류(Type)                | 문자(Character)              | Filled by? | Readonly? | Contains text from? |
+|---------------------------|------------------------|------------|-----------|---------------------|
+| 이름없는(Unnamed)            | `"`                    | vim        | [ ]       | 마지막 복사나 삭제. (`d`, `c`, `s`, `x`, `y`) |
+| 숫자(Numbered)           | `0` to `9`             | vim        | [ ]       | 레지스터`0`: 마지막 복사. 레지스터`1`: 마지막 삭제. 레지스터`2`: 마지막 이전 삭제. 등. 레지스터 `1`-`9` 를 읽기만 가능한 9개로 구성된 [큐(queue)](https://en.wikipedia.org/wiki/Queue_(abstract_data_type))로 생각하세요. |
+| 작은삭제(Small delete)        | `-`                    | vim        | [ ]       | 한 줄보다 짧은 마지막 삭제. |
+| 이름붙은(Named)               | `a` to `z`, `A` to `Z` | user       | [ ]       | 레지스터 `a`에 복사하면 그곳에 저장되어 있던 텍스를 대체합니다.  레지스터 `A`에 복사를 하면 기조의 `a`에 텍스트를 추가합니다. |
+| 읽기만가능(Read-only)           | `:`, `.`, `%`          | vim        | [x]       | `:`: 마지막 명령어, `.`: 마지막으로 들어간 텍스트, `%`: 현재 파일 이름. |
+| 대체버퍼(Alternate buffer)    | `#`                    | vim        | [ ]       | 일반적으로, 현재 윈도우에서 이전에 불러온 버퍼 부르기. 도움 `:h alternate-file` |
+| 표현(Expression)          | `=`                    | user       | [ ]       | 복사된 값을 vim 표현식으로 해석 평가 합니다. 삽입 모드에서 `<c-r>=5+5<cr>`을 해보세요. "10"이 삽입 될것입니다. |
+| 선택(Selection)           | `+`, `*`               | vim        | [ ]       | `*`와 `+`는 [클립보드(clipboard)](#clipboard) 레지스터입니다. |
+| 드롭(Drop)                | `~`                    | vim        | [x]       | 마지막으로 드래그 앤 드랍한 것으로 부터. |
+| 블랙홀(Black hole)          | `_`                    | vim        | [ ]       | 만약 그 어떤 레지스터로부터 영향받길 원하지 않는 다면. 예를 들어, `"_dd`은 레지스터에 영향 없이 라인을 지워 줄 것이에요. `"`, `1`, `+`, `*`. |
+| 마지막검색패턴(Last search pattern) | `/`                    | vim        | [ ]       | `/`, `?`, `:global`과 사용된 마지막 패턴. |
 
+읽기만 가능한 레지스터가 아니면, 사용자에 의해 지정이 가능합니다:
 ```vim
 :let @/ = 'register'
 ```
 
-Afterwards <kbd>n</kbd> would jump to the next occurrence of "register".
+그런후 <kbd>n</kbd>는 다음 저장된 레지스터로 이동할 것입니다.
 
-There are numerous exceptions when registers get implicitly filled, so be sure
-to read `:h registers`.
+많은 예외적인 경우로 레지스터들이 채워지는 경우가 있는습니다. `:h registers`를 확인해 보세요.
 
-Yank with `y` and paste with `p`/`P`, but mind that Vim distinguishes between
-characterwise and linewise visual selections. See `:h linewise`.
+`y`로 복사를 하고, `p`/`P`로 붙여넣으세요. 하지만 또한 Vim은 문자단위와 줄단위의
+비주얼 선택모드를 지원한다는 것도 염두하세요. `:h linewise`를 참고하세요.
 
-**Example: linewise**
+**예제: 줄 단위**
 
-`yy` (or just `Y`) yanks the current line, move the cursor somewhere else, use
-`p` to paste below the current line `P` for pasting above it.
+`yy` (혹은 그냥 `Y`)로 현재 줄을 복사하시고, 커서를 다른 곳으로 옮기세요. 그리고 `p`를 사용해서
+현재줄 아래 붙여넣거나, `P`로 줄 위로 붙여넣으세요.
 
-**Example: charwise**
+**예제: 문자 단위**
 
-Yank the first word with `0yw`, move somewhere else, paste after the cursor on
-the current line with `p` and before the cursor with `P`.
+`0yw`로 첫번째 단어를 복사한 후에, 커서를 다른데 옮기세요. 그리고 마찬가지로,
+`p`를 사용해서 현재단어 뒤에 붙여넣거나, `P`로 앞에 붙여넣으세요.
 
-**Example: explicit naming of register**
+**예제: 레지스터의 이름을 명시하기**
 
-`"aY` yanks the current line into register `a`. Move to another line. `"AY`
-appends the current line to register `a`.
+`"aY`로 현재의 줄을 복사해서 레지스터 `a`로 넣습니다. 다른 줄로 커서를 옮기세요.
+`"AY`를 이용해서 현재줄을 이전에 채워둔 레지스터 `a`에 추가합니다..
 
-I suggest playing around with all these registers a bit and constantly checking
-`:reg`, so you can see what's actually happening.
+지금까지 소개드렸던 레지스터들로 장난쳐보길 권해드려요. 
+`:reg`를 사용하면 실제로 어떤 일들이 레지스터에 일어나는지도 볼 수 있어요.
 
-**Fun fact**: In Emacs "yanking" stands for pasting (or _reinserting previously
-killed text_) not copying.
+**재미있는 사실**: Emacs에서는 "yanking(복사)"가 붙여넣기로 지정되어있죠.(정확히는
+이전에 지워진 텍스트를 재삽입하는 것입니다)
 
 ## Ranges
 
