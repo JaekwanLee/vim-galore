@@ -515,36 +515,35 @@ Vim은 아래와 같은 레지스터들을 제공합니다:
 
 ## Ranges
 
-Ranges are pretty easy to understand, but many Vimmers don't know about their
-full potential.
+범위(Ranges)는 꽤나 쉽게 이해할 수 있습니다. 하지만 많은 Vim 사용자들이 이것의 
+끝판왕을 가보지 못했죠.
 
-- Many commands take ranges.
-- An address denotes a certain line.
-- A range is either a single address or a pair of addresses separated by either
-  `,` or `;`.
-- Ranges tell commands which lines to act on.
-- Most commands act only on the current line by default. Notable exceptions are
-  `:write` and `:global` which act on all lines.
+- 많은 명령어가 범위를 이용합니다.
+- 하나의 주소는 특정한 줄을 가리키죠.
+- 하나의 범위는 한개의 주소거나 한 `,`나 `;`의해 분리된 한 쌍이 주소 입니다.
+- 범위들은 명령어에게 어떤 줄의 범위에서 일들이 일어나야하는지 알려줍니다.
+- 일반적으로 명령어들은 현재의 라인에서만 실행되죠. 또한 잘 알려져 있는 예외적인 경우로는
+모든 라인에서 일어나게 만드는 `:write`과 `:global`입니다.
 
-The usage of ranges is pretty intuitive, so here are some examples (using `:d`
-as short form of `:delete`):
+범위의 사용법은 꽤나 직관적이고, 이 아래 몇 가지 예제를 넣었습니다. 
+(`:d`는 `:delete`의 줄임말이에요)
 
-| Command | Lines acted on |
+| 명령어(Command) | 실행될 줄(Lines acted on) |
 |---------|----------------|
-| `:d` | Current line. |
-| `:.d` | Current line. |
-| `:1d` | First line. |
-| `:$d` | Last line. |
-| `:1,$d` | All lines. |
-| `:%d` | All lines (syntactic sugar for `1,$`). |
-| `:.,5d` | Current line to line 5. |
-| `:,5d` | Also current line to line 5. |
-| `:,+3d` | Current line and the next 3 lines. |
-| `:1,+3d` | First line to current line + 3. |
-| `:,-3d` | Current line and the last 3 lines. (Vim will prompt you, since this is a reversed range.) |
-| `:3,'xdelete` | Lines 3 to the line marked by [mark](#marks) x. |
-| `:/^foo/,$delete` | From the next line that starts with "foo" to the end. |
-| `:/^foo/+1,$delete` | From the line after the line that starts with "foo" to the end. |
+| `:d` | 현재 줄. |
+| `:.d` | 현재 줄. |
+| `:1d` | 첫번째 줄. |
+| `:$d` | 마지막 줄. |
+| `:1,$d` | 모든 줄. |
+| `:%d` | 모든 줄 (`1,$`를 한줄로 쓴 꿀팁). |
+| `:.,5d` | 현재 줄부터 다섯 번째 줄. |
+| `:,5d` | 역시 현재 줄부터 다섯 번째 줄. |
+| `:,+3d` | 현재 줄부터 세 줄 추가까지. |
+| `:1,+3d` | 첫 줄부터 현재 줄 + 3줄 까지. |
+| `:,-3d` |  현재 줄부터 세 줄 이전까지. (Vim will prompt you, since this is a reversed range.) |
+| `:3,'xdelete` | 세번째 줄부터[지점(mark)](#marks) x. |
+| `:/^foo/,$delete` | 다음줄의 "foo"로 시작하는 글자 줄부터 마지막 줄까지. |
+| `:/^foo/+1,$delete` | 다음줄의 "foo"로 시작하는 글자의 다음 줄부터 마지막 줄까지. |
 
 Note that instead of `,`, `;` can be used as a separator. The difference is that
 in the case of `from,to`, the _to_ is relative to the current line, but when
@@ -552,8 +551,16 @@ using `from;to`, the _to_ is relative to the address of _from_! Assuming you're
 on line 5, `:1,+1d` would delete lines 1 to 6, whereas `:1;+1d` would only
 delete lines 1 and 2.
 
+`,` 대신 `;`이 범위를 분리하는 문자로 사용될 수 있는 것을 알아두세요. 차이점은
+`부터,까지`를 사용하면 _까지_는 현재 줄에서 상대적인 곳입니다. 하지만 `부터;까지`를 
+사용하면, _까지_는 _부터_에서 상대적인 곳에요! 당신이 5번째 줄에 있으면, `:1,+1d`는 1부터
+6까지 지웁니다. 하지만 `:1;+1d`는 1과 2만 지워버리죠.
+
 The `/` address can be preceded with another address. This allows you to _stack_
 patterns, e.g.:
+
+`/` 주소는 다른 주소 앞에 선행 될 수 있습니다. 이것은 _스택_ 패턴을
+사용할 수 있게 만들어주죠.
 
 ```vim
 :/foo//bar//quux/d
