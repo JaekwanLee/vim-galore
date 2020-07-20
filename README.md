@@ -461,7 +461,7 @@ nnoremap <leader>h :helpgrep<space>
 ## Registers
 
 레지스터는 텍스트를 저장하는 공간입니다. 텍스트를 복사해서 레지스터에 넣는 것을
-**복사- 잡아넣기(yanking)**이라고 합니다. 그리고 레지스터에서 꺼내는 것을 **붙여넣기(pasting)**라고 하죠.
+**복사-잡아넣기**(yanking)이라고 합니다. 그리고 레지스터에서 꺼내는 것을 **붙여넣기**(pasting)라고 하죠.
 
 Vim은 아래와 같은 레지스터들을 제공합니다:
 
@@ -545,19 +545,10 @@ Vim은 아래와 같은 레지스터들을 제공합니다:
 | `:/^foo/,$delete` | 다음줄의 "foo"로 시작하는 글자 줄부터 마지막 줄까지. |
 | `:/^foo/+1,$delete` | 다음줄의 "foo"로 시작하는 글자의 다음 줄부터 마지막 줄까지. |
 
-Note that instead of `,`, `;` can be used as a separator. The difference is that
-in the case of `from,to`, the _to_ is relative to the current line, but when
-using `from;to`, the _to_ is relative to the address of _from_! Assuming you're
-on line 5, `:1,+1d` would delete lines 1 to 6, whereas `:1;+1d` would only
-delete lines 1 and 2.
-
 `,` 대신 `;`이 범위를 분리하는 문자로 사용될 수 있는 것을 알아두세요. 차이점은
 `부터,까지`를 사용하면 _까지_는 현재 줄에서 상대적인 곳입니다. 하지만 `부터;까지`를 
 사용하면, _까지_는 _부터_에서 상대적인 곳에요! 당신이 5번째 줄에 있으면, `:1,+1d`는 1부터
 6까지 지웁니다. 하지만 `:1;+1d`는 1과 2만 지워버리죠.
-
-The `/` address can be preceded with another address. This allows you to _stack_
-patterns, e.g.:
 
 `/` 주소는 다른 주소 앞에 선행 될 수 있습니다. 이것은 _스택_ 패턴을
 사용할 수 있게 만들어주죠.
@@ -565,24 +556,20 @@ patterns, e.g.:
 ```vim
 :/foo//bar//quux/d
 ```
+이것은 현재줄 이후로 "foo"와 "bar" 나온 후 "quux"이 나온 줄을 지워버립니다.
 
-This would delete the first line containing "quux" after the first line
-containing "bar" after the first line containing "foo" after the current line.
+때론, Vim은 자동으로 범위를 명령어에 붙여버리죠. 예를 들면, `V`를 눌러 시각모드를
+선택하고, 몇 줄을 선택한 후에 `:`을 넣으세요. 커맨드라인은 자동으로 범위를 지정한
+`'<,'>`으로 늘어날거에요. (이것은 또한 당신이 가끔 `:vnoremap foo :<c-u>command`과 같은
+맵핑을 보는 이유기도 합니다. 여기서 `<c-u>`는 범위를 지우기위해서 사용합니다. 왜냐면,
+Vim은 범위를 지정하지 않는 명령어에 범위를 넣으면 오류를 표시하기 때문이죠.)
 
-Sometimes Vim automatically prepends the command-line with a range. E.g. start a
-visual line selection with `V`, select some lines and type `:`. The command-line
-will be populated with the range `'<,'>`, which means the following command will
-use the previously selected lines as a range. (This is also why you sometimes
-see mappings like `:vnoremap foo :<c-u>command`. Here `<c-u>` is used to remove
-the range, because Vim will throw an error when giving a range to a command that
-doesn't support it.)
+다른 예로는 일반모드에서 `!!`을 사용하는 것이죠. 이것은 명령줄에 `:.!`를 넣습니다.
+만약에 외부 프로그램과 같이 사용되면, 그 프로그램의 결과값이 현재 줄에 붙여집니다.
+그래서 당신은 현재줄에 ls의 결과값도 `:?^$?+1,/^$/-1!ls`을 사용해서 넣을 수 있죠. 대박!
 
-Another example is using `!!` in normal mode. This will populate the
-command-line with `:.!`. If followed by an external program, that program's
-output would replace the current line. So you could replace the current
-paragraph with the output of ls by using `:?^$?+1,/^$/-1!ls`. Fancy!
 
-Help:
+도움:
 
 ```
 :h cmdline-ranges
@@ -592,46 +579,49 @@ Help:
 ## Marks
 
 You use marks to remember a position, that is line number and column, in a file.
+지점은 한 파일에서 줄번호(line number)와 문자줄(column)로 위치를 기억할 수 있습니다.
 
-| Marks | Set by.. | Usage |
+| 지점들(Marks) | 누가 지정(Set by..) | 사용법(Usage) |
 |-------|----------|-------|
-| `a` - `z` | User | Local to file, thus only valid within one file. Jumping to a lowercase mark, means jumping within the current file. |
-| `A` - `Z` | User | Global, thus valid between files. Also called _file marks_. Jumping to a file mark may switch to another buffer. |
-| `0` - `9` | viminfo | `0` is the position when the viminfo file was written last. In practice this means when the last Vim process ended. `1` is the position of when the second last Vim process ended and so on. |
+| `a` - `z` | User | 로컬에서 파일로, 따라서 한 파일안에서만 유효함. 한 소문자 지점으로 이동하는 것은 현재 파일 안에서 이동하는 것을 의미한다. |
+| `A` - `Z` | User | 글로벌, 따라서 이것은 파일간에도 유효하다. 또한 _파일 지점(file marks)_로 불림. 다른 지점으로의 이동은 아마 현재 버퍼를 다른 버퍼로 바꿀지 모른다. |
+| `0` - `9` | viminfo | `0`은 viminfo파일이 마지막으로 쓰며진 지점이다. 실례로, 이것은 Vim이 마지막으로 프로세싱을 끝낸 지점을 의미한다. `1`은 Vim이 그 이전에 프로세싱을 끝냈던 지점이고, 그렇게 9번까지 있다. |
 
-Put `'`/`g'` or `` ` ``/`` g` `` in front of a mark to form a motion.
+움직임을 형성하기 위해 `'`/`g'`나 `` ` ``/`` g` ``을 지점 앞에 넣으세요. 
 
-Use `mm` to remember the current position with mark "m". Move around the file
-and then jump back via `'m` (first non-blank) or `` `m `` (exact column).
-Lowercase marks will be remembered after exiting Vim, if you tell your viminfo
-file to do so, see `:h viminfo-'`.
+`mm`을 사용해서 지점 "m"에 현재 위치를 저장합니다. 그리고 파일의 다른 곳을 불러보다가
+`'m` (빈 공간이 없는 첫문자) or `` `m `` (정확한 문자줄)로 이동해보세요. 만약 viminfo파일을
+변경하면 소문자 지점들이 Vim을 종료한 후에서 저장되어 사용할 수 있습니다. `:h viminfo-'`를 보시죠.
+
 
 Use `mM` to remember the current position with file mark "M". Switch to another
 buffer and switch back via `'M` or `` `M ``.
 
-Other motions include:
+`mM`을 사용해서 현재위치를 지점 `M`에 저장하세요. 다른 버퍼로 바꾼 후 `'M` or `` `M ``로 되돌아 와보세요.
 
-| Motion           | Jump to.. |
-|------------------|-----------|
-| `'[`, `` `[ ``   | First line or character of previously changed or yanked text. |
-| `']`, `` `] ``   | Last line or character of previously changed or yanked text. |
-| `'<`, `` `< ``   | Beginning line or character of last visual selection. |
-| `'>`, `` `> ``   | Ending line or character of last visual selection. |
-| `''`, ``` `` ``` | Position before the latest jump. |
-| `'"`, `` `" ``   | Position when last exiting the current buffer. |
-| `'^`, `` `^ ``   | Position where last insertion stopped. |
-| `'.`, `` `. ``   | Position where last change was made. |
-| `'(`, `` `( ``   | Start of current sentence. |
-| `')`, `` `) ``   | End of current sentence. |
-| `'{`, `` `{ ``   | Start of current paragraph. |
-| `'}`, `` `} ``   | End of current paragraph. |
+다른 움직임(motion)들:
 
-Marks can also be used in a [range](#ranges). You probably saw this before and
-wondered what it means: Select some text in visual mode and do `:`, the
-command-line will be prepended with `:'<,'>`, which means the following command
-would get a range that denotes the visual selection.
+| 움직임(Motion)   | 이동(Jump to..) |
+|------------------|-----------------|
+| `'[`, `` `[ ``   | 첫 번째 줄이나 혹은 이전에 변경하거나 복사했던 문자로. |
+| `']`, `` `] ``   | 마지막 줄이나 이전에 변경하거나 복사했던 문자로. |
+| `'<`, `` `< ``   | 시작 줄이나 마지막으로 시각모드에서 선택핸던 문자로. |
+| `'>`, `` `> ``   | 끝줄이나 마지막으로 시각모드에서 선택핸던 문자로. |
+| `''`, ``` `` ``` | 마지막으로 점프하기 이전 위치로. |
+| `'"`, `` `" ``   | 현재 버퍼의 마지막 종료시 위치로. |
+| `'^`, `` `^ ``   | 마지막 삽입이 끝났던 위치로. |
+| `'.`, `` `. ``   | 마지막 변경이 끝났던 위치로. |
+| `'(`, `` `( ``   | 현재 문장의 시작점으로. |
+| `')`, `` `) ``   | 현재 문장의 끝나는 점으로. |
+| `'{`, `` `{ ``   | 현재 문단의 시작점으로. |
+| `'}`, `` `} ``   | 현재 문단의 끝나는 점으로. |
 
-Use `:marks` to list all marks. Read everything in `:h mark-motions`.
+지점들은 또한 [범위(range)](#ranges)와 같이 사용될 수 있습니다. 아마 봤을 수도 있을꺼에요.
+궁금해 했을 수도 있을꺼구요: 시각모드로 어떤 텍스트를 선택한 후에 `:`을 누르세요.
+이제 명령어 모드에 `:'<,'>`가 추가되었을 거에요. 이 의미는 이 뒤에 쓰여지는 명령은
+시각모드에서 선택된 범위에 한해서만 명령이 실행된다는 뜻이에요.
+
+`:marks`를 사용해서 모든 지점을 출력해보시죠. `:h mark-motions`에 있는 모든것을 읽어보세요.
 
 ## Completion
 
