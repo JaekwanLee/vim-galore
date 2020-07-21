@@ -705,82 +705,76 @@ Vim은 또한 `'complete'` 옵션을 이용하여 다양한 종류를 한 방에
 
 ## Autocmds
 
-You can trigger an action after many events in Vim, such as a buffer being
-saved or Vim having started up, by so-called _autocmds_.
+Vim에서 일어나는 많은 이벤트 후에 한 동작을 실행시킬 수 있습니다. 가령, Vim이 시작하고
+버퍼에 저장하죠. 이것들은 _자동명령어(autocmds)_라 합니다.
 
-Vim relies extensively on autocmds. Don't believe me? Check `:au`, but don't let
-the output overwhelm you. These are all the autocmds that are in effect right
-now!
+Vim은 자동명령어에 굉장히 의존하고 있어요. 믿지 못하겠나요? `:au`를 확인해보세요.
+하지만 결과값에 놀라지 마세요. 이것들 모두가 이미 자동명령으로 실행 되고 있답니다.
 
-See `:h {event}` for a quick overview of all available events and `:h
-autocmd-events-abc` for more details.
+모든 이벤트들을 보기 위해 `:h {event}`를 빠르게 한번 훑어보세요.
+`:h autocmd-events-abc`도 찾아보세요.
 
-A typical example would be filetype-specific settings:
+전형적으로 사용하는 예시로 특정 파일에 적용하는 것을 볼 수 있죠.
 
 ```vim
 autocmd FileType ruby setlocal shiftwidth=2 softtabstop=2 comments-=:#
 ```
 
-But how does a buffer even know that it contains Ruby code? Because another
-autocmd detected it as that and set the filetype accordingly which again
-triggered the `FileType` event.
+어떻게 버퍼가 Ruby로 쓰여진지 알수 있을까요? 왜냐면, 다른 자동명령어가 이미
+이것이 Ruby로 쓰여진것을 확인하고 다시 `FileType` 이벤트를 생성했기 때문이에요.
 
-One of the first things everyone adds to their vimrc is `filetype on`. This
-simply means that `filetype.vim` is read at startup which sets autocmds for
-almost all filetypes under the sun.
+아마 모든 사람들이 그들의 vimrc 파일에 쓰는 것들 중 하나가 `filetype on`에요.
+이것은 간단히 시작시점에 `filetype.vim`를 읽어서 모든 파일 타입에 관해 자동명령어를
+지정하기 때문이죠.
 
-If you're brave enough, have a look at it: `:e $VIMRUNTIME/filetype.vim`. Search
-for "Ruby" and you'll find that Vim simply uses the file extension `.rb` to
-detect Ruby files:
+자신있다면 한번 `:e $VIMRUNTIME/filetype.vim`을 보세요. "Ruby"를 한 번 찾아보시면,
+그것이 단순하게 .rb 확장자로 되어었는 파일을 Ruby파일로 찾아내는 걸 발결할 수 있죠.
 
-**NOTE**: Autocmds of the same event are executed in the order they were
-created. `:au` shows them in the correct order.
+**알림**: 한 이벤트에 걸려있는 여러 자동명령어들은 생성된 순서되로 실행되게 되어 있죠.
+`:au`이 이 순서를 알려 줍니다.
 
 ```vim
 au BufNewFile,BufRead *.rb,*.rbw  setf ruby
 ```
 
-The `BufNewFile` and `BufRead` events in this case are hardcoded in the C
-sources of Vim and get emitted everytime you open a file via `:e` and similar
-commands. Afterwards all the hundreds of filetypes from `filetype.vim` are
-tested for.
+`BufNewFile`과 `BufRead` 이벤트의 경우 Vim의 C코드에 하드코드 되어있고, 
+`:e`나 비슷한 명령어를 통해서 열때마다 항상 이벤트가 생성됩니다. 그 다음,
+`filetype.vim`에 있는 수백가지 파일 타입을 테스팅하는 거죠.
 
-Putting it in a nutshell, Vim makes heavy use of events and autocmds but also
-exposes a clean interface to hook into that event-driven system for
-customization.
+쉽게 말해, Vim은 이벤트와 자동명령어를 굉장히 많이 사용하며, 또한 꽤나 깔끔하게 
+사용자 정의를 이벤트로 할 수 있는 인터페이스를 제공합니다.
 
-Help: `:h autocommand`
+도움: `:h autocommand`
 
 ## Changelist, jumplist
 
-The positions of the last 100 changes are kept in the **changelist**. Several
-small changes on the same line will be merged together, but the position will be
-that of the last change nevertheless (in case you added something in the middle
-of the line).
+지난 100번의 변경사항들의 위치들이 **변경목록(changelist)**에 남겨둡니다. 같은
+줄에서 일어난 몇 가지 작은 변경들은 합쳐져서 저장되고, 그렇지만 위치는 마지막 변경
+을 한곳으로 저장이 되요(줄의 중같에 뭔가를 저장한 경우)
 
-Every time you jump, the position _before_ the jump is remembered in the
-**jumplist**. A jumplist has up to 100 entries. Each window has its own
-jumplist. When you split a window, the jumplist is copied.
+매번 커서를 이동할때마다, _이전_ 위치는 **이동목록(jumplist)**라는 곳에 저장이 됩니다.
+이 목록은 100개를 저장 할 수 있으며, 각 윈도우는 이 목록은 하나씩 갖고 있죠.
+한 개의 윈도우를 분할 하면, 이 목록은 복사되어 유지 됩니다.
 
-A jump is one of the following commands: `'`, `` ` ``, `G`, `/`, `?`, `n`, `N`,
-`%`, `(`, `)`, `[[`, `]]`, `{`, `}`, `:s`, `:tag`, `L`, `M`, `H` and commands
-that start editing a new file.
+이동(jump)은 이 명령어들 중 하나로 할 수 있죠.: `'`, `` ` ``, `G`, `/`, `?`, `n`, `N`,
+`%`, `(`, `)`, `[[`, `]]`, `{`, `}`, `:s`, `:tag`, `L`, `M`, `H`, 그리고 새 파일을 시작하는
+명령어들
 
-| List       | List all entries | Go to older position | Go to newer position |
+| List       | List all entries | 이전에 저장했던 위치로 | 새로운 위치로 |
 |------------|------------------|----------------------|----------------------|
-| jumplist   | `:jumps`         | `[count]<c-o>`       | `[count]<c-i>`       |
-| changelist | `:changes`       | `[count]g;`          | `[count]g,`          |
+| 이동목록(jumplist)   | `:jumps`         | `[count]<c-o>`       | `[count]<c-i>`       |
+| 변경목록(changelist) | `:changes`       | `[count]g;`          | `[count]g,`          |
 
-When you list all entries, a marker `>` will be used to show the current
-position. Usually that will be below position 1, the latest position.
+이 목록을 열어보면, `>` 표시가 현재 위치를 보여줄꺼게요. 보통,
+포지션 1 아래 있고, 그곳이 가장 최근 위치를 나타내죠.
 
-If you want both lists to persist after restarting Vim, you need to use the
-viminfo file and `:h viminfo-'`.
+만약 이 목록을 Vim을 종료 한 후에서 유지하고 싶다면, viminfo파일을 사용해야 
+할꺼에요. `:h viminfo-'`를 보세요.
 
-**NOTE**: The position before the latest jump is also kept as a [mark](#marks)
-and can be jumped to via ``` `` ``` or `''`.
+**알림**: 마지막으로 이동했던 곳의 위치는 또한 [지점(mark)](#marks)에도 저장되고,
+``` `` ```나 `''`으로 이동할 수 있죠.
 
-Help:
+도움:
 
 ```
 :h changelist
