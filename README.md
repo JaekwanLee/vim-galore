@@ -587,21 +587,17 @@ You use marks to remember a position, that is line number and column, in a file.
 | `A` - `Z` | User | 글로벌, 따라서 이것은 파일간에도 유효하다. 또한 _파일 지점(file marks)_로 불림. 다른 지점으로의 이동은 아마 현재 버퍼를 다른 버퍼로 바꿀지 모른다. |
 | `0` - `9` | viminfo | `0`은 viminfo파일이 마지막으로 쓰며진 지점이다. 실례로, 이것은 Vim이 마지막으로 프로세싱을 끝낸 지점을 의미한다. `1`은 Vim이 그 이전에 프로세싱을 끝냈던 지점이고, 그렇게 9번까지 있다. |
 
-움직임을 형성하기 위해 `'`/`g'`나 `` ` ``/`` g` ``을 지점 앞에 넣으세요. 
+모션을 형성하기 위해 `'`/`g'`나 `` ` ``/`` g` ``을 지점 앞에 넣으세요. 
 
 `mm`을 사용해서 지점 "m"에 현재 위치를 저장합니다. 그리고 파일의 다른 곳을 불러보다가
 `'m` (빈 공간이 없는 첫문자) or `` `m `` (정확한 문자줄)로 이동해보세요. 만약 viminfo파일을
 변경하면 소문자 지점들이 Vim을 종료한 후에서 저장되어 사용할 수 있습니다. `:h viminfo-'`를 보시죠.
 
-
-Use `mM` to remember the current position with file mark "M". Switch to another
-buffer and switch back via `'M` or `` `M ``.
-
 `mM`을 사용해서 현재위치를 지점 `M`에 저장하세요. 다른 버퍼로 바꾼 후 `'M` or `` `M ``로 되돌아 와보세요.
 
-다른 움직임(motion)들:
+다른 모션(motion)들:
 
-| 움직임(Motion)   | 이동(Jump to..) |
+| 모션(Motion)   | 이동(Jump to..) |
 |------------------|-----------------|
 | `'[`, `` `[ ``   | 첫 번째 줄이나 혹은 이전에 변경하거나 복사했던 문자로. |
 | `']`, `` `] ``   | 마지막 줄이나 이전에 변경하거나 복사했던 문자로. |
@@ -658,8 +654,7 @@ Vim은 각 자동완성을 위해 매핑을 제공하며, 모두 `<c-x>`로 시�
 Vim은 또한 `'complete'` 옵션을 이용하여 다양한 종류를 한 방에 완성시킬 수 있는 것도
 허락합니다. 기본적으로 이 옵션이 꽤 많이 들어가 있으므로, 입맛에 맞게 바꾸세요. 
 `<c-n>` (다음)이나 `<c-p>` (이전)를 이용해 이 완성들을 시작할 수 있습니다. 이 키들은
-또한 팝업 메뉴에서 선택을 하는데도 쓰지죠. 더 많은 정보는 `:h i^n`와 `:h 'complete'`를 보세요.
-
+또한 팝업 메뉴에서 선택을 하는데도 쓰죠. 더 많은 정보는 `:h i^n`와 `:h 'complete'`를 보세요.
 
 `:h 'completeopt'`를 확인해보는 것을 잊지 마세요. 팝업메뉴의 행동방식을 알려줍니다.
 기본으로 들어간 셋팅도 괜찮지만, 저는 "noselect"옵션도 좋다고 봐요.
@@ -674,43 +669,39 @@ Vim은 또한 `'complete'` 옵션을 이용하여 다양한 종류를 한 방에
 
 ## Motions, operators, text objects
 
-**Motions** move the cursor. You all know `h`/`j`/`k`/`l`. Or `w` and `b`. Even
-`/` is a motion. They also take a count. `2?the<cr>` jumps to the second last
-occurrence of "the".
+**모션(움직임)**은 커서를 움직입니다.`h`/`j`/`k`/`l`는 모두 알죠. 혹은 `w`나 `b`도요. 게다가,
+`/`도 모션이에요. 이것은 또한 숫자도 이용하죠. `2?the<cr>`는 끝에서 두번째로 일어난 "the"로 옮겨줍니다.
 
-See `:h navigation` and everything below for all available motions.
+`:h navigation`를 한번 읽어보세요. 아래있는 모든 모션들에 관해 나와있습니다.
 
-**Operators** act on a region of text, e.g. `d`, `~`, `gU`, `>` to name just a
-few. They get used in two contexts, either in normal or visual mode. In normal
-mode, operators come first followed by a motion, e.g. `>j`. In visual mode,
-operators simply act on the selection, e.g. `Vjd`.
+**연산자(오퍼레이터)**는 텍스트의 한 부분에 적용되요. 예를 들면, `d`, `~`, `gU`, `>` 같은 것들이죠.
+이것들은 두 가지 모드에 사용되는데, 일반모드와 시각모드에요. 일반모드에서는, 연사자들이 먼저 모션보다
+일찍 오죠, `>j`처럼요. 시각모드에서는, 연산자들이 단순하게 선택된 부분의 영역에만 적용된답니다.
 
-Like motions, operators take a count, e.g. `2gUw` makes the rest of the current
-word and the next one uppercase. Since motions and operators take counts,
-`2gU2w` works just as well and executes `gU2w` twice.
+모션처럼, 연산자도 숫자를 이용합니다. `2gUw`는 현재 단어와 다음단어를 대문자로
+만듭니다. 모션과 연산자 모두 숫자를 받기 때문에, `2gU2w`도 역시 되고 이것은
+`gU2w`를 두 번 실행하죠.
 
-See `:h operator` for all available operators. Use `:set tildeop` to make `~`
-act as an operator.
+모든 연산자들을 `:h operator`으로 만나보세요. `:set tildeop`으로 `~`를 연산자로
+활성화 시키세요.
 
-**Text objects** act on the surrounding area, opposed to motions that act into
-one direction. Actually they work on objects, e.g. a whole word, a whole
-sentence, everything between parentheses, and so on.
+**텍스트 객체**은 둘러싸인 부분에 적용되는데, 한방향으로만 작동하는 모션과는 반대죠.
+전체 단어/전체 문장/괄호에 둘러싸인 모든 부분 등 실제로 객체들로 일을 한답니다.
 
-Text objects can't be used to move the cursor in normal mode, because even the
-most-skilled cursors can't jump into two directions at the same time. It works
-in visual mode though, because then one side of the object is already selected
-and the cursor simply jumps to the other side.
+텍스트 객체는 일반모드에서 커서를 움직이는데는 사용될 수 없어요. 왜냐면, 가장
+뛰어난 커서들도 한 번에 두 방향으로 동시에 움직일 수 없기 때문이죠. 하지만 시각모드
+는 괜찮죠. 왜냐면, 객체의 한 부분이 이미 선택되어 커서는 다른쪽으로 이동하기만 하면
+되거든요.
 
-Text objects start with either `i` (think _inner_) or `a` (think _around_)
-followed by a character denoting the object. With `i` it only acts on the object
-itself, with `a` on the object plus trailing whitespace. E.g. `diw` deletes the
-current word and `ci(` changes everything between parentheses.
+텍스트 객체는 `i`나 (_안쪽_으로 생각) or `a` (_바깥둘레_로 생각)로 시작합니다.
+`i`는 그 객체 자체에 영향을 주고, `a`는 그 객체와 따라오는 스페이스까지 포함하죠.
+예를 들어 `diw`는 현재 단어를 지우고, `ci(`는 괄호 안의 모든 것을 지웁니다.
 
-Text objects take a count. Imagine `((( )))` and the cursor on or between the
-most inner parentheses, then `d2a(` will remove the 2 inner pairs of parentheses
-and everything in between.
+텍스트 객체도 숫자를 받죠. 커서가 `((( )))`의 가장 안쪽 혹은 그 중같에 있다고
+상상해보세요. 그리고, `d2a(`를 쓰면, 2개의 괄호를 포함한 괄호 안쪽의 모든 것들을
+함께 지울거에요.
 
-See `:h text-objects` for all available text objects.
+모든 텍스트 객체를 보기위해 `:h text-objects`을 찾아보세요.
 
 ## Autocmds
 
