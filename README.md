@@ -783,18 +783,15 @@ au BufNewFile,BufRead *.rb,*.rbw  setf ruby
 
 ## Undo tree
 
-The latest changes to the text state are remembered. You can use _undo_ to
-revert changes and _redo_ to reapply previously reverted changes.
+마지막으로 변경한 텍스트의 상태도 저장됩니다. 변경을 되돌리기 위한 _undo_,
+그리고 되돌린 변경을 다시 되돌리기 위한 _redo_를 사용할 수 있죠.
 
-The important bit to understand it that the data structure holding recent
-changes is not a
-[queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) but a
-[tree](https://en.wikipedia.org/wiki/Tree_(data_structure))! Your changes are
-nodes in the tree and each (but the top node) has a parent node. Each node keeps
-information about the changed text and time. A branch is a series of nodes that
-starts from any node and goes up to the top node. New branches get created when
-you undo a change and then insert something else.
-
+이것을 이해하는데가 중요한 것은 이것은 [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type))가
+아니라 [tree](https://en.wikipedia.org/wiki/Tree_(data_structure))에 저장된다는 거에요!
+당신의 만들 변경들은 트리의 노드들이고, 각각은 부모 노드를 갖고 있죠. 각 노드는
+변경한 시간과 텍스트에 대한 정보를 들고 있답니다. 트리의 한 브랜치는 노드들로 엮여
+부모를 통해 꼭대기로 올라갈 수 있죠. 새로운 가지는 undo를 한 후에 새로운 값을 넣으면
+생성됩니다.
 ```
 ifoo<esc>
 obar<esc>
@@ -803,7 +800,7 @@ u
 oquux<esc>
 ```
 
-Now you have 3 lines and the undo tree looks like this:
+이제 당신은 3 줄이 있고, undo 트리는 이렇게 생겼죠.
 
 ```
      foo(1)
@@ -812,40 +809,38 @@ Now you have 3 lines and the undo tree looks like this:
    /      \
 baz(3)   quux(4)
 ```
+undo 트리는 4개의 변경사항이 있습니다. 시간을 표시하는 숫자는 각 노드가 생성된
+시간을 나타내요.
 
-The undo tree has 4 changes. The numbers represent the _time_ the nodes were
-created.
+두 가지 방식으로 이 트리를 순회할 수 있는데, 하나는 _브랜치순(branch-wise)_이고,
+다른 하나는 _시간순(time-wise)_입니다.
 
-Now there are two ways to traverse this tree, let's call them _branch-wise_ and
-_time-wise_.
+Undo (`u`)와 redo (`<c-r>`)는 브랜치 순으로 동작합니다. 이 명령어들은 현재 브랜치에서
+위 아래로 움직이죠. `u`는 "bar"들 중 하나의 상태로 돌아갈꺼에요. `u`를 한 번 더
+하게되면, 더 위로 올라가 "foo"에 도달하겠죠. 이제 `<c-r>`를 누르면 다시 "bar"로 
+내려갈 꺼에요. 그리고 한 번 더 누르면 "quux"로 가겠죠. (이 브랜치 순 동작을 통해
+"baz"로 갈 방법은 없습니다.)
 
-Undo (`u`) and redo (`<c-r>`) work branch-wise. They go up and down the current
-branch. `u` will revert the text state to the one of node "bar". Another `u`
-will revert the text state even further, to the one of node "foo". Now `<c-r>`
-goes back to the state of node "bar" and another `<c-r>` to the state of node
-"quux". (There's no way to reach node "baz" using branch-wise commands anymore.)
+반대로, `g-`와 `g+`는 시간순으로 작동합니다. 따라서, `u`가 한 것 처럼 `g-`는
+"상태로 돌아가지 않습니다. 그렇지만 시간적으로 전에 있던 "baz"로 가죠. `g-`를
+한 번 더 눌르면 이제 "bar"로 가는 방식이죠. 그래서, `g-`와 `g+`는 간단하게 시간
+순으로 앞으로 뒤로 왔다 갔다 한답니다.
 
-Opposed to this, `g-` and `g+` work time-wise. Thus, `g-` won't revert to the
-state of node "bar", like `u` does, but to the chronologically previous state,
-node "baz". Another `g-` would revert the state to the one of node "bar" and so
-on. Thus, `g-` and `g+` simply go back and forth in time, respectively.
-
-| Command / Mapping | Action |
+| 명령어 / 맵핑 | 동작 |
 |-------------------|--------|
-| `[count]u`, `:undo [count]` | Undo [count] changes. |
-| `[count]<c-r>`, `:redo` | Redo [count] changes. |
-| `U` | Undo all changes to the line of the latest change. |
-| `[count]g-`, `:earlier [count]?` | Go to older text state [count] times. The "?" can be either "s", "m", "h", "d", or "f". E.g. `:earlier 2d` goes to the text state from 2 days ago. `:earlier 1f` will go to the state of the latest file save. |
-| `[count]g+`, `:later [count]?` | Same as above, but other direction. |
+| `[count]u`, `:undo [count]` | Undo [count] 변경들. |
+| `[count]<c-r>`, `:redo` | Redo [count] 변경들. |
+| `U` | 가장 최근에 변경했던 줄에 일어난 모든 변경을 취소 합니다. |
+| `[count]g-`, `:earlier [count]?` | 이전 텍스트 상태로 [count]번 이동합니다. "?"는  "s", "m", "h", "d", "f" 중 하나를 씁니다. `:earlier 2d`가 2일 전의 상태로 가는 것 처럼요. `:earlier 1f`는 마지막으로 파일을 저장했던 상태로 되돌아갑니다. |
+| `[count]g+`, `:later [count]?` | 위와 같고, 반대방향으로 작동합니다. |
 
-The undo tree is kept in memory and will be lost when Vim quits. See [Undo
-files](#undo-files) for how to enable persistent undo.
+undo 트리는 메모리에 저장되고, Vim을 종료하면 없어집니다. 이것을 저장하기 위해서
+[Undo files](#undo-files) 을 찾아보세요.
 
-If you're confused by the undo tree,
-[undotree](https://github.com/mbbill/undotree) does a great job at visualizing
-it.
+undo 트리에 여전히 혼란스럽다면, [undotree](https://github.com/mbbill/undotree)을 보세요.
+이 트리 시각화를 완전 잘해 놨죠.
 
-Help:
+도움:
 
 ```
 :h undo.txt
