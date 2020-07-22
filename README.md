@@ -849,53 +849,51 @@ undo 트리에 여전히 혼란스럽다면, [undotree](https://github.com/mbbil
 
 ## Quickfix and location lists
 
-The quickfix list is a data structure that holds file positions. Essentially,
-each entry in the quickfix list consists of a file path, a line number and
-optional column, and a description.
+quickfix (빠른수정) 목록은 파일의 위치들을 저장하고 있습니다. 본질적으로, 이 목록은
+파일 path, 줄 번호와 열(옵션), 그리고 설명을 갖고 있죠.
 
-Typical use cases are assembling compiler errors or results of a grep tool.
+전형적인 예들로 컴파일러 에러를 만든다던가 혹은 grep의 결과들입니다.
 
-Vim has a special type of buffer for showing the quickfix list: the quickfix
-buffer. Each line in the quickfix buffer shows one entry from the quickfix list.
+Vim은 이 빠른수정 목록을 보여주기 위해 특별한 버퍼를 사용합니다. quickfix
+버퍼죠. 이 버퍼의 각각의 줄은 이 목록의 한 아이템을 나타냅니다.
 
-Usually you open a new window to display the quickfix list: the quickfix window.
-When that happens, the last window gets associated with the quickfix window.
+보통 이 목록을 보기위해 새로운 윈도우를 이용하죠. quickfix 윈도우라 합니다. 그러면,
+마지막의 윈도우가 이 quickfix 윈도우와 연결이 됩니다.
 
-In the quickfix buffer `<cr>` opens the selected entry in the associated window
-and `<c-w><cr>` in a new window.
+quickfix 버퍼에서는 `<cr>`은 연결된 윈도우에 목록에서,
+`<c-w><cr>`은 새로운 윈도우에서 선택한 항목을 엽니다.
 
-The quickfix list was named after the "quick fix" feature from the [Aztec C
-compiler](https://en.wikipedia.org/wiki/Aztec_C).
+이 quickfix 목록의 이름은 [Aztec C compiler](https://en.wikipedia.org/wiki/Aztec_C)에서 
+"quick fix" 기능을 넣은데서 비롯되었죠. 
 
-Actually there are two kinds of lists: quickfix and location lists. They behave
-almost the same, but have the follwing differences:
+사실, quickfix 목록과 location(위치) 목록의 두 종류의 목록이 있습니다. 이 두 개는
+거의 비슷하지만 아래에 차이점을 적어 두었습니다.
 
-- There is only one quickfix list. There can be multiple location lists; one per
-  window.
-- They use slightly different commands for navigation.
+- 윈도우 하나당 단 하나의 quickfix 목록만 있지만, 여러개의 location 목록이 있을 수 있습니다.
+- 그리고 약간 다른 명령어들로 사용합니다.
 
-| Action         | Quickfix     | Location     |
+| 동작(Action)         | Quickfix     | Location     |
 |----------------|--------------|--------------|
-| open window    | `:copen`     | `:lopen`     |
-| close window   | `:cclose`    | `:lclose`    |
-| next entry     | `:cnext`     | `:lnext`     |
-| previous entry | `:cprevious` | `:lprevious` |
-| first entry    | `:cfirst`    | `:lfirst`    |
-| last entry     | `:clast`     | `:llast`     |
+| 윈도우 열기 | `:copen`     | `:lopen`     |
+| 윈도우 닫기 | `:cclose`    | `:lclose`    |
+| 다음 항목 | `:cnext`     | `:lnext`     |
+| 이전 항목 | `:cprevious` | `:lprevious` |
+| 처음 항목 | `:cfirst`    | `:lfirst`    |
+| 마지막 항목 | `:clast`     | `:llast`     |
 
 Mind that the quickfix and location windows don't need to be open for these
 commands to work.
+이 명령어들을 사용하기 위해서 quickfix나 location 윈도우가 열려있을 필요는 
+없습니다.
 
-See `:h quickfix` for more information and a full list of commands.
+모든 명령어를 보거나 더 많은 정보는 `:h quickfix`에서 찾을 수 있습니다.
 
-For conciseness, _quickfix_ and _location_ are often abbreviated as _qf_ and
-_loc_ respectively.
+_quickfix_와 _location_은 때론 _qf_와 _loc_ 짧게 표현되기도 합니다.
 
-**Example**:
+**예제**:
 
-Let us use our good old friend `grep` for searching the files in the current
-directory recursively for a certain query and put the results in the quickfix
-list.
+우리의 오랜 친구인 `grep`으로 현재 폴더에서 특정 쿼리로 검색해서, 결과값을
+quickfix에 넣어보죠.
 
 ```vim
 :let &grepprg = 'grep -Rn $* .'
@@ -903,9 +901,7 @@ list.
 <grep output - hit enter>
 :copen
 ```
-
-Assuming any files contained the string "foo", it should be shown now in the
-quickfix window.
+"foo"를 갖고 있는 어떤 파일들이 있다 가정하면, 이제 quickfix 윈도우에 나타날 것이에요.
 
 ## Macros
 
