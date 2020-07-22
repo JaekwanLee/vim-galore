@@ -34,13 +34,13 @@
 - [레지스터](#registers)
 - [범위](#ranges)
 - [지점](#marks)
-- [Completion](#completion)
-- [Motions, operators, text objects](#motions-operators-text-objects)
-- [Autocmds](#autocmds)
-- [Changelist, jumplist](#changelist-jumplist)
-- [Undo tree](#undo-tree)
-- [Quickfix and location lists](#quickfix-and-location-lists)
-- [Macros](#macros)
+- [자동완성](#completion)
+- [모션, 연산자, 텍스트 객체](#motions-operators-text-objects)
+- [자동 명령어](#autocmds)
+- [변경 목록, 이동 목록](#changelist-jumplist)
+- [Undo 트리](#undo-tree)
+- [Quickfix(빠른수정)와 location(위치) 목록](#quickfix-and-location-lists)
+- [매크로](#macros)
 - [Colorschemes](#colorschemes)
 - [Folding](#folding)
 - [Sessions](#sessions)
@@ -905,19 +905,18 @@ quickfix에 넣어보죠.
 
 ## Macros
 
-Vim allows _recording_ typed characters into a [register](#registers). It's a
-great way to automate certain tasks on the fly. (For more elaborate tasks, Vim
-scripting should be used instead.)
+Vim은 [레지스터](#registers)에 쓰여진 문자들을 _녹화_할 수 있습니다. 이것은
+어떤 일들을 자동화 시켜주는데 꽤나 좋은 방법이죠. (더 힘든일들은, Vim 스크립트로
+대신할 수 있습니다.)
 
-- Start recording by typing `q` followed by the register, e.g. `q`. (The
-  command-line will signify this via "recording @q".)
-- Stop recording by hitting `q` once again.
-- Execute the macro via `[count]@q`.
-- Repeat the last used macro via `[count]@@`.
+- `q`로 녹화를 시작하세요. (명령어 창에 "recording @q"라고 뜹니다.)
+- `q`를 다시 누르면 녹화가 끝납니다.
+- 이 매크로를 `[count]@q`로 실행하세요.
+- `[count]@@`로 마지막 매크로를 다시 실행해보세요.
 
-**Example 1:**
+**예제 1:**
 
-Insert a line and repeat it 10 times:
+새로운 한 줄을 삽입하고, 10번 반복해보세요:
 
 ```
 qq
@@ -926,13 +925,15 @@ q
 10@q
 ```
 
-(The same could be done without macros: `oabc<esc>10.`)
+(같은 결과를 매크로 없이도 만들 수 있죠: `oabc<esc>10.`)
 
-**Example 2:**
+**예제 2:**
 
 For adding line numbers in front of all lines, start on the first line and add
 "1. " to it manually. Increment the number under the cursor by using `<c-a>`,
 displayed as `^A`.
+모든 줄 앞에 줄 번호를 넣기 위해서 첫 라인에 "1. "를 넣으세요. 커서에 있는 번호를
+`^A`로 표시되는 `<c-a>`로 증가시켜 보세요. 
 
 ```
 qq
@@ -941,9 +942,8 @@ q
 1000@q
 ```
 
-Here we simply hope that the file doesn't contain more than 1000 lines when
-using `1000@q`, but we can also use a _recursive macro_, which executes until
-the macro can't be applied to a line anymore:
+이 예제에서 `1000@q`를 실행할 때, 우리는 사용하고 있는 파일이 1000줄이 넘지 않길 
+바라죠. 하지만 _재귀적인 매크로_를 사용하면, 파일에 줄이 있을 동안만도 실행시킬 수 있죠.
 
 ```
 qq
@@ -952,15 +952,14 @@ q
 @q
 ```
 
-(The same could be done without macros: `:%s/^/\=line('.') . '. '`)
+(물론 매크로 없이 가능합니다: `:%s/^/\=line('.') . '. '`)
 
-Mind that I also show how to achieve the same without using macros, but this
-mostly works only for such simple examples. For more complex automation, macros
-are the bomb!
+제가 매크로를 사용하지 않고 같은 일을 수행 했지만, 이건 간단한 작업에 가능하죠.
+더 복잡하고 멋진 자동화를 하려면, 매크로가 짱입니다.
 
-Also see: [Quickly edit your macros](#quickly-edit-your-macros)
+이걸 보세요: [매크로 빠르게 변경하기](#quickly-edit-your-macros)
 
-Help:
+도움:
 
 ```
 :h recording
@@ -2017,20 +2016,19 @@ Now `5[<space>` inserts 5 blank lines above the current line.
 
 ## Quickly edit your macros
 
-This is a real gem! The mapping takes a register (or `*` by default) and opens
-it in the cmdline-window. Hit `<cr>` when you're done editing for setting the
-register.
+이것 진짜 멋져요. 맵핑은 레지스터 하나를 쓰죠(혹은 디폴트로 `*`) 그리고 
+명령어 창에 그것을 열죠. 레지스터를 편집하고 나면 `<cr>`을 누르세요.
 
-I often use this to correct typos I did while recording a macro.
+저는 매크로를 녹화하는 동안 실수(오타)를 고치기 위해서 이걸 사용합니다.
 
 ```vim
 nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 ```
 
-Use it like this `<leader>m` or `"q<leader>m`.
+`<leader>m`나 `"q<leader>m`로 사용하세요.
 
-Notice the use of `<c-r><c-r>` to make sure that the `<c-r>` is inserted
-literally. See `:h c_^R^R`.
+`<c-r>`이 삽입된 것을 재확인 하기 위해서 `<c-r><c-r>`를 사용한 걸 보세요. 
+`:h c_^R^R`에서 볼 수 있습니다.
 
 ## Quickly jump to header or source file
 
