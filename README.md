@@ -968,43 +968,36 @@ q
 
 ## Colorschemes
 
-Colorschemes are the way to style your Vim. Vim consists of many components and
-each of those can be customized with different colors for the foreground,
-background and a few other attributes like bold text etc. They can be set like
-this:
+색상정의(colorschemes)은 당신만의 Vim을 위해 스타일을 만들어 주는 방법이죠. Vim은 많은
+컴포넌트들은 각기 모두 다른 색깔로 글자나 배경색 심지어 진하게 글자를 재정의 할 수 있습니다.
 
+이렇게 정의가 가능하죠:
 ```vim
 :highlight Normal ctermbg=1 guibg=red
 ```
 
-This would paint the background of the editor red. See `:h :highlight` for more
-information.
+이것은 편집기의 바탕화면 빨갛게 만들죠. 더 많은 정보를 위해 `:h :highlight`를 참조하세요.
 
-So, colorschemes are mostly collections of `:highlight` commands.
+이 색상정의는 `:highlight` 명령어들의 집합이죠.
 
-Actually, most colorschemes are really 2 colorschemes! The example above sets
-colors via `ctermbg` and `guibg`. The former definition (`cterm*`) will only be
-used if Vim was started in a terminal emulator, e.g. xterm. The latter (`gui*`)
-will be used in graphical environments like gvim or MacVim.
+실제로, 대부분의 색상정의들이 두 개로 정의되어 있죠. 위에 있는 예제는 `ctermbg`나 `guibg`를
+통해서 색깔을 지정합니다. 이전 정의(`cterm*`)는 Vim이 터미널에서 시작했을때만 쓰여지죠. 예를 들어
+xterm같은 것이요. 후자(`gui*`)는 gvim이나 macVim과 같은 그래픽 환경에서 사용됩니다.
 
-If you ever happen to use a colorscheme in terminal Vim and the colors don't
-look like the ones in the screenshot at all, chances are that the colorscheme
-only defines colors for the GUI. Conversely, if you use a graphical Vim (e.g.
-gvim or MacVim) and the colors look off, the colorscheme might only define
-colors for the terminal.
+Vim 터미널에서 색상정의를 사용하게 되고, 색깔이 스크린샷에 나와있는 것처럼 나오지 않으면,
+아마도 색상정의가 GUI를 위해서만으로 정의 되어 있을 수 있습니다. 반대로, 그래픽 환경에서
+Vim을 사용하는데 색깔이 약간 다르다고 느껴진다면, 색상정의가 터미널만 정의 되어 있을 수 있죠.
 
-The latter case can be "solved" by enabling true colors in Neovim or Vim
-7.4.1830 and newer. This makes terminal Vim use the GUI definitions instead, but
-also requires the terminal emulator itself and all software in between (e.g.
-tmux) to be capable of handling true colors. ([This
-gist](https://gist.github.com/XVilka/8346728) gives a good overview about the
-topic.)
+후자의 경우는 NeoVim이나 Vim 7.4.1830 이후 버젼에서 트루 컬러를 활성화시켜 문제해결이
+가능하죠. 이렇게 하면 Vim은 GUI에 정의된 것을 사용합니다. 하지만 터미널이나 다른 그 사이의
+다른 소프트웨어(예: tmux)도 트루컬러를 다룰 수 있는 능력이 생기죠. ([이
+gist](https://gist.github.com/XVilka/8346728)에 소개글이 잘 나와있죠)
 
-Help:
+도움:
 
 - `:h 'termguicolors'`
-- [List of colorschemes](PLUGINS.md#colorschemes-1)
-- [Cosmetic changes to colorschemes](#cosmetic-changes-to-colorschemes)
+- [색상정의 목록](PLUGINS.md#colorschemes-1)
+- [색상정의 겉핣기](#cosmetic-changes-to-colorschemes)
 
 ## Folding
 
