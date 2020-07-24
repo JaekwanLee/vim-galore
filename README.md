@@ -1001,28 +1001,28 @@ gist](https://gist.github.com/XVilka/8346728)에 소개글이 잘 나와있죠)
 
 ## Folding
 
-Every text (or source code) has a certain structure. If you have a structure, it
-means you have regions of logically separated text. Folding allows to "fold"
-such a region into a single line and displaying a short description. There are
-many commands that act on these regions called _folds_. Folds can be nested.
+어떤 텍스트(혹은 소스코드)던지 특정 구조를 갖고 있죠. 구조를 갖고 있다는 말은,
+논리적으로 구분된 텍스트의 지역들이 있다는 말이죠. 접기(Folding)는 그런 지역들을 한 줄로
+접고, 짧게 줄임말로 표시해 줍니다. 많은 명령어들이 이 _접힌줄(folds)_의 지역에서
+동작하죠. 접힌줄은 또한 접힌줄을 포함할 수 있습니다.
 
-Vim distinguishes between several types of fold methods:
+Vim은 몇 가지 접는 방법들의 종류를 구분합니다. 
 
-| 'foldmethod' | Usage |
+
+| 접는방법('foldmethod') | 사용법 |
 |--------------|-------|
-| diff         | Used in diff windows to fold unchanged text. |
-| expr         | Uses `'foldexpr'` to basically create a new fold method. |
-| indent       | Folds based on indentation. |
-| manual       | Create folds yourself via `zf`, `zF`, and `:fold`. |
-| marker       | Folds based on markers in the text (often in comments). |
-| syntax       | Folds based on syntax, e.g. folding `if` blocks. |
+| diff         | diff 윈도우에서 변하지 않은 텍스트를 접을 때 사용됨. |
+| expr         | `'foldexpr'`를 사용하여 새로운 접는 방법을 생성. |
+| indent       | 들임쓰기에 따라 접기. |
+| manual       | `zf`, `zF`, `:fold`로 손수 접기. |
+| marker       | 텍스트에 있는 특정 지시자를 따라 접기(보통 주석). |
+| syntax       | 문법에 따른 접기, 예) `if` 블럭. |
 
-**NOTE**: Folding can be computationally intensive! If you experience any
-performance drawbacks (small delays when typing), have a look at
-[FastFold](https://github.com/Konfekt/FastFold), which prevents Vim from
-updating folds when it's not needed.
+**알림**: 접기는 꽤나 비싼 작업일 수 있죠. 따라서, 성능이 저하되는 경험(글을 쓸 때
+작은 지연)이 생기면, [FastFold](https://github.com/Konfekt/FastFold)를 한 번 보세요.
+이것은 Vim으 접힌줄을 필요하지 않은데 업데이트 하는 것을 방지합니다.
 
-Help:
+도움:
 
 ```
 :h usr_28
