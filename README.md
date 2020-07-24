@@ -1031,36 +1031,31 @@ Vim은 몇 가지 접는 방법들의 종류를 구분합니다.
 
 ## Sessions
 
-If you save a **view** (`:h :mkview`), the current state of the window (and
-options and mappings) gets saved for later use (`:h :loadview`).
+만약 저장된 **뷰(view)**(`:h :mkview`)가 있으면, 현재 윈도우의 상태(옵션들과 맵핑들)을 
+다음에 또 사용하게 위해서 저장(`:h :loadview`)할 수 있습니다.
 
-A **session** saves the views of all windows plus global settings. It basically
-makes a snapshot of your current Vim instance and saves it in a session file.
-Let me stress this: it saves the current state; everything done after saving a
-session won't be part of the session file. To "update" a session, simply write
-it out again.
+하나의 **세션(session)**은 모든 윈도우들의 뷰들과 글로벌 세팅을 저장하죠. 다시 말해,
+현재 Vim 인스터스의 스냅샷을 만들어서, 세션파일로 저장해 두는 것입니다.
+강조 할께요. 이것은 현재 상태를 저장합니다; 세션을 저장한 뒤에 일어나는 것들은
+세션파일로 같이 들어가지 않습니다. 세션 파일을 다시 업데이트 하려면, 다시 저장하면 됩니다.
 
-This makes it perfect for saving your _projects_ and easy to switch between
-them.
+이것은 당신의 _프로젝트들_을 저장하기 위해 완벽한 방법이죠. 프로젝트들 사이를 옮기기도 쉽죠.
 
-Try it right now! Open a few windows and tabs and do `:mksession Foo.vim`. If
-you omit the filename, `Session.vim` will be assumed. The file will be saved to
-the current working directory, check `:pwd`. Restart Vim and do `:source
-Foo.vim` and voilà, the buffer list, window layout, mappings, working directory
-etc. should all be the same as before you saved the session. Do some more work
-and update the session by overwriting the already existing session file with
-`:mksession! Foo.vim`.
+바로 시도해 보세요. 몇 개의 윈도우와 탭을 열고, `:mksession Foo.vim`를 넣어 보세요.
+만약 파일 이름을 빼먹으면 `Session.vim`으로 생성될 꺼에요. 이 파일은 현재 디렉토리에
+저장될 것이고, `:pwd`를 확인해보세요. Vim을 재시작하고 `:source Foo.vim`을 해보세요. 
+짜잔!. 버퍼목록, 윈도우 상태, 맵핑, 현재 디렉토리등 모든 것이 세션을 저장하기 이전과
+같죠. 좀 더 가지고 놀다가 기존의 세션 파일을 `:mksession! Foo.vim`으로 덮어씌워 보세요.
 
-Note that a session file is really just a collection of Vim commands that are
-supposed to restore a certain state of a Vim instance, so feel free to take a
-look at it: `:vs Foo.vim`.
+하나의 세션 파일은 단지 Vim 인스턴스의 특정 상태를 복구하기 위한 Vim명령어 들의 집합이죠. 
+그러니 `:vs Foo.vim`로 한 번 들여다 보세요.
 
-You can tell Vim what things to save in a session by setting `'sessionoptions'`.
+또한 `'sessionoptions'`을 지정함으로써, Vim이 무엇을 정장해야할지 지정할 수 있습니다.
 
-For scripting purposes Vim keeps the name of the last sourced or written session
-in the internal variable `v:this_session`.
+스크립팅을 위해서, Vim은 내부 변수 `v:this_session`에 마지막으로 쓰여졌거나 로드된 세션의
+이름을 저장합니다.
 
-Help:
+도움:
 
 ```
 :h Session
