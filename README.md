@@ -881,8 +881,6 @@ quickfix 버퍼에서는 `<cr>`은 연결된 윈도우에 목록에서,
 | 처음 항목 | `:cfirst`    | `:lfirst`    |
 | 마지막 항목 | `:clast`     | `:llast`     |
 
-Mind that the quickfix and location windows don't need to be open for these
-commands to work.
 이 명령어들을 사용하기 위해서 quickfix나 location 윈도우가 열려있을 필요는 
 없습니다.
 
@@ -1065,75 +1063,71 @@ Vim은 몇 가지 접는 방법들의 종류를 구분합니다.
 
 ## Locality
 
-Many of the concepts mentioned above also have _local_ counterparts:
+위에서 언급된 많은 컨셉들은 _로컬_에 해당하는 명령어들을 갖고 있죠.
 
-| Global | Local | Scope | Help |
+| 글로벌(Global) | 로컬(Local) | 범위(Scope) | 도움(Help) |
 |--------|-------|-------|------|
-| `:set`     | `:setlocal`           | buffer or window | `:h local-options`    |
-| `:map`     | `:map <buffer>`       | buffer           | `:h :map-local`       |
-| `:autocmd` | `:autocmd * <buffer>` | buffer           | `:h autocmd-buflocal` |
-| `:cd`      | `:lcd`                | window           | `:h :lcd`             |
-| `<leader>` | `<localleader>`       | buffer           | `:h maplocalleader`   |
+| `:set`     | `:setlocal`           | 버퍼 또는 윈도우 | `:h local-options`    |
+| `:map`     | `:map <buffer>`       | 버퍼             | `:h :map-local`       |
+| `:autocmd` | `:autocmd * <buffer>` | 버퍼             | `:h autocmd-buflocal` |
+| `:cd`      | `:lcd`                | 윈도우.          | `:h :lcd`             |
+| `<leader>` | `<localleader>`       | 버퍼             | `:h maplocalleader`   |
 
-[Variables also have different scopes](https://vimhelp.appspot.com/usr_41.txt.html#41.2).
+[변수들 또한 다른 범위를 갖고 있죠](https://vimhelp.appspot.com/usr_41.txt.html#41.2).
 
 # Usage
 
 ## Getting help offline
 
-Vim comes with great documentation in the form of single text files with a
-special layout. Vim uses a system based on tags for accessing certain parts of
-those help files.
+Vim은 특별한 구조를 갖고 하나의 텍스트 파일들로 이루어진 문서들과 함께 설치됩니다.
+Vim은 또한 도움말의 특정 부분으로 접근하기 위해서 태그로 이루어진 시스템을 사용하죠.
 
-First of all, read this: `:help :help`. This will open the file
-`$VIMRUNTIME/doc/helphelp.txt` in a new window and jump to the `:help` tag
-within that file.
+무엇보다도 먼저 `:help :help`을 읽어 보세요. 이것은 `$VIMRUNTIME/doc/helphelp.txt`의
+파일을 새 윈도에 열고, `:help` 태그로 파일안에서 이동할 것입니다.
 
-A few simple rules:
+몇 가지 간단한 규칙:
 
-- options are enclosed in single quotes, e.g. `:h 'textwidth'`
-- VimL functions end in `()`, e.g. `:h reverse()`
-- commands start with `:`, e.g. `:h :echo`
+- 옵션은 작은 따옴표에 넣어주세요. 예) `:h 'textwidth'`
+- VimL 함수`()`로 끝나요. 예) `:h reverse()`
+- 명령어들은 `:`로 시작합니다. 예) `:h :echo`
 
-You can use `<c-d>` (this is <kbd>ctrl</kbd>+<kbd>d</kbd>) to list all tags that
-match the currently entered query. E.g. `:h tab<c-d>` will get you a list of all
-tags from `tab` over `'softtabstop'` to `setting-guitablabel`.
+`<c-d>`(<kbd>ctrl</kbd>+<kbd>d</kbd>)를 사용하면 현재 질의된 모든 태그들을 나열해
+줍니다. 예를들면, `:h tab<c-d>`는 `tab`부터 시작해서 `softtabstop`과 `setting-guitablabel`까지
+모든 태그들의 목록을 보여줄 것입니다.
 
-You want to list all VimL functions? Simple: `:h ()<c-d>`. You want to list all
-VimL functions that concern windows? `:h win*()<c-d>`.
+VimL 함수를 모두 출력하고 싶으신가요? 간단하게 `:h ()<c-d>`를 눌러보세요. 윈도우와
+관련된 모든 VimL 함수가 궁금하신가요? `:h win*()<c-d>`처럼 사용하세요.
 
-This quickly becomes second nature, but especially in the beginning, you
-sometimes don't know any part of the tag you are looking for. You can only
-imagine some keywords that could be involved. `:helpgrep` to the rescue!
+이것은 굉장히 빠르게 적응하게 될꺼에요. 하지만, 특히 처음엔 어떤 부분의 태그로
+시작해야될지 모를 것입니다. 아마 관련되었다 싶은 키워드들이 생각나겠죠. 
+`:helpgrep`으로 이때를 이용하세요.
 
 ```
 :helpgrep backwards
 ```
-
-This will look for "backwards" in all documentation files and jump to the first
-match. The matches will be assembled in the quickfix list. Use `:cn`/`:cp` to
-jump to the next/previous match. Or use `:copen` to open the quickfix window,
-navigate to an entry and hit `<cr>` to jump to that match. See `:h quickfix` for
-the whole truth.
+이것은 모든 문서에서 빠르게 "backwards"라는 단어를 찾아 첫 번째로 찾은 곳을
+보여줄 것입니다. quickfix list에 찾아진 모든 곳이 저장되어 있을 거에요. 
+`:cn`/`:cp`로 검색된 목록의 다른 곳에 가서 `<cr>`을 이용해서 선택하세요.
+선택된 다른 곳의 문서로 이동 될 것입니다. 완벽을 위해 `:h quickfix`를 찾아보세요.
 
 ## Getting help offline (alternative)
 
-This list was compiled by @chrisbra, one of the most active Vim developers, and
-posted to [vim_dev](https://groups.google.com/forum/#!forum/vim_dev).
+이 목록은 가장 활동이 왕성한 Vim개발자중 한 분인 @chrisbra님에 의해 편집되었었고, 
+이 [vim_dev](https://groups.google.com/forum/#!forum/vim_dev)에 게시되어 있었죠.
 
-It's reposted here with minor changes.
+그리고 약간의 수정된 사항과 함께 다시 이곳에 올려 놓았습니다.
 
 ---
 
-If you know what you are looking for, it is usually easier to search for it
-using the help system, because the subjects follow a certain style guide.
+당신이 무엇을 찾고 있는지 알고 있다면, 각 주제가 하나의 구조와 스타일을 따르기 때문에
+도움말 시스템으로 찾는 것은 간단할 거에요.
 
-Also, the help has the advantage of belonging to your particular Vim version, so
-that obsolete topics or topics that have been added later won't turn up.
+또한, 이 도움말은 당신이 Vim을 설치할때 함께 설치되기 때문에, 현재 설치된 버젼에
+맞는 도움말을 보여주죠. 낮은 버젼에 있는 없어진 기능이나 높은 버젼에 있는 새로운 기능
+이 들어 있지 않기 때문에 헷깔리지도 않아요.
 
-Therefore, it is essential to learn the help system and the language it uses.
-Here are some examples (not necessarily complete and I might have forgotten
-something).
+따라서, 도움말 시스템을 배우는 것과 사용하는 용어들을 습득하는 것은 정말 중요해요.
+여기 몇 가지 예들이 있어요. (까먹은 것들이 있을 수도 있으니 주의 바람)
 
 1. Options are enclosed in single quotes. So you would use `:h 'list'` to go to
    the help topic for the list option. If you only know, you are looking for a
