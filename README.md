@@ -1129,34 +1129,32 @@ VimL 함수를 모두 출력하고 싶으신가요? 간단하게 `:h ()<c-d>`를
 따라서, 도움말 시스템을 배우는 것과 사용하는 용어들을 습득하는 것은 정말 중요해요.
 여기 몇 가지 예들이 있어요. (까먹은 것들이 있을 수도 있으니 주의 바람)
 
-1. Options are enclosed in single quotes. So you would use `:h 'list'` to go to
-   the help topic for the list option. If you only know, you are looking for a
-   certain option, you can also do `:h options.txt` to open the help page which
-   describes all option handling and then you can search using regular
-   expressions e.g. `/width`. Certain options have their own namespace, e.g. `:h
-   cpo-a`, `:h cpo-A`, `:h cpo-b`, and so on.
+1. 옵션들은 작은 따옴표에 쌓여 있죠. 그래서 `:h 'list'`을 목록의 옵션 보기위해
+   사용하죠. 만약에 당신이 특정 옵션을 알고 있고 그것을 찾는다면, `:h options.txt`로
+   모든 옵션 관련 핸들링에 관한 도움말을 열수 있죠. 그리고, 정규표현식을 사용해서
+   검색할 수 있답니다. 예를 들면 `/width`처럼요. 특정 옵션은 고유한 네임스페이스를
+   갖고 있어요. 예를 들면, `:h cpo-a`, `:h cpo-A`, `:cpo-b` 등 처럼요
 
-2. Normal mode commands are just that. Use `:h gt` to go to the help page for
-   the "gt" command.
+2. 일반 모드 명령어들은 있는 그대로죠. `:h gt`를 사용해서 "gt"관련 도움말 페이지를
+   참조하세요.
 
-3. Regexp items always start with "/", so `:h /\+` takes you to the help item
-   for the "\+" quantifier in Vim regexes. If you need to know anything about
-   regular expressions, start reading at `:h pattern.txt`.
+3. 정규표현은 항상 "/"로 시작하죠. 그래서 `:h /\+`은 당신을 Vim 정규식에 관련된
+   수량자 표현인 "\+"로 보낼꺼에요. 정규표현식에 대해서 더 알아야 한다면,
+   `:h pattern.txt`를 참조하세요.
+   
+4. 키 조합. 이것들 보통 어떤 모드인지를 알려주는 한 문자로 시작하죠. 예를 들면,
+   `:h i_CTRL-X`는 다른 방식의 자동완선관련된 기능인 삽입 모드에서 CTRL-X 명령어로
+   이루어진 명령어들이 나오는 곳으로 당신을 보내 줄꺼에요. 특정 키들은 항상 같은
+   방식으로 쓰여진다는 것을 염두하면서 보세요. 예를 들면, 컨드롤 키는 CTRL이죠. 
+   그리고 일반모드고 관련된 명령어에서는 "n"이 빠진다는 것도 염두해야 합니다.
+   가령, `:h CTRL-A`이 일반모드를 가정한 것처럼요. 비슷하게, `:h c_CTRL-R`은 명령어
+   창에서 명령어를 넣는 곳에서 CTRL-R의 동작을 설명하고, `:h v_CTRL-A`는 시각모드에서
+   숫자를 증가시키는 것, `:h g_CTRL-A`는 g<C-A> 명령어 대해서 이야기를 합니다. (
+   따라서 "g"를 누른 후 <Ctrl-A>를 눌러야겠죠). 여기서 "g"는 일반모드에서의  "g"키를
+   말하는데, 이것은 "z"키와 비슷하게 실행전에 항상 두번째 키 입력을 받죠. 
 
-4. Key combinations. They usually start with a single letter indicating the mode
-   for which they can be used. E.g. `:h i_CTRL-X` takes you to the family of
-   CTRL-X commands for insert mode which can be used to auto complete different
-   things. Note that certain keys will always be written the same, e.g. Control
-   will always be CTRL. Note, for normal mode commands, the "n" is left away,
-   e.g. `:h CTRL-A`. In contrast, `:h c_CTRL-R` will describe what CTRL-R does
-   when entering commands in the command line and `:h v_Ctrl-A` talks about
-   incrementing numbers in visual mode and `:h g_CTRL-A` talks about the g<C-A>
-   command (thus you have to press "g" then <Ctrl-A>). Here the "g" stand for
-   the normal command "g" which always expect a second key before doing
-   something similar to the commands starting with "z".
-
-5. Registers always start with "quote" so use `:h quote` to find out about the
-   special ":" register.
+5. 레지스터들은 항상 "quote"로 시작하죠. 그래서 `:h quote`를 사용해서 특별한 ":"
+   레지스터를 찾아보세요.
 
 6. Vim script (VimL) is available at `:h eval.txt`. Certain aspects of the
    language are available at `:h expr-X` where 'X' is a single letter, e.g. `:h
